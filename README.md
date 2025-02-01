@@ -1,50 +1,30 @@
-# React + TypeScript + Vite
+# Delphi Oracle Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project was bootstrapped with [Vite](https://vite.dev/guide/).
 
-Currently, two official plugins are available:
+## Hosting links
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Amazon S3](http://thedelphioracle.com/)
 
-## Expanding the ESLint configuration
+## Project services links
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- [Firebase](https://console.firebase.google.com/u/1/project/astro-gpt-eb9ee/overview)
+- [Google Analytics](https://analytics.google.com/analytics/web/?authuser=1#/p423910202/reports/intelligenthome)
+- [Radar](https://radar.com/dashboard?project=65d2074f7e7bd12d33f8c27d&live=false)
+- [Amazon](https://s3.console.aws.amazon.com/s3/home?region=eu-central-1)
+- [Geoapify](https://myprojects.geoapify.com/projects)
+- [Stripe](https://dashboard.stripe.com/test/dashboard)
 
-- Configure the top-level `parserOptions` property like this:
+## Available Scripts
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+In the project directory, you can run
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### `npm run start:dev`
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### `npm run build`
+
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance. - Do not try at home
