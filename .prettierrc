@@ -1,0 +1,8 @@
+{
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindStylesheet": "./src/index.css",
+  "tailwindAttributes": ["className"],
+  "tailwindFunctions": ["tw"],
+  "tailwindPreserveWhitespace": true,
+  "tailwindPreserveDuplicates": true
+}
