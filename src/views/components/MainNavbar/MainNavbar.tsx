@@ -25,19 +25,21 @@ const MainNavbar = () => {
   };
 
   return (
-    <div className="w888:px-2 relative z-50 flex w-full justify-center px-5">
-      <div className="w888:py-2 flex w-full max-w-[1440px] items-center py-3">
+    <div className="relative z-50 flex w-full justify-center px-5 w888:px-2">
+      <div className="flex w-full max-w-[1440px] items-center py-3 w888:py-2">
         <div
           className="mr-auto flex cursor-pointer"
           onClick={() =>
             authData
               ? navigate("/chat-box")
-              : navigate("/user-info-public/welcome")
+              : sessionStorage.getItem("userId")
+                ? navigate("/chat-box-public")
+                : navigate("/user-info-public/welcome")
           }
         >
           <img
             src={delphiLogo}
-            className="w888:h-[26px] h-[34px] w-auto"
+            className="h-[34px] w-auto w888:h-[26px]"
             alt="delphi-logo-header"
           />
         </div>
@@ -47,7 +49,7 @@ const MainNavbar = () => {
         {authData && (
           <Button
             type="goldMain"
-            CustomIco={<IoMdLogOut className="w888:w-[17px] h-auto w-[20px]" />}
+            CustomIco={<IoMdLogOut className="h-auto w-[20px] w888:w-[17px]" />}
             text=""
             onClick={handleSignOut}
             className="ml-2 !gap-1.5 !px-[4.5px] !py-[4.5px] text-sm"
@@ -65,7 +67,7 @@ const MainNavbar = () => {
                 ? navigate("/auth/signup")
                 : navigate("/auth/login")
             }
-            className="w888:!py-[3px] w888:!px-2 w888:text-xs !gap-1.5 !px-3 !py-1 text-sm"
+            className="!gap-1.5 !px-3 !py-1 text-sm w888:!px-2 w888:!py-[3px] w888:text-xs"
             customStyle={{ icon: "w888:w-[15px] w888:h-auto" }}
           />
         ) : (
