@@ -8,11 +8,9 @@
     "start:dev": "env-cmd -f .env.development npm run-script start",
     "start:prod": "env-cmd -f .env.production npm run-script start",
     "build": "tsc -b && vite build",
-    "build:dev": "env-cmd -f .env.development npm run-script build --stats",
+    "build:dev": "env-cmd -f .env.development npm run-script build",
     "build:prod": "env-cmd -f .env.production npm run-script build",
-    "analyze": "webpack-bundle-analyzer build/bundle-stats.json",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "analyze": "webpack-bundle-analyzer build/bundle-stats.json"
   },
   "dependencies": {
     "@react-pdf/renderer": "^4.1.6",
