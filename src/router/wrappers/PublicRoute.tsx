@@ -14,7 +14,11 @@ const PublicRoute = ({ children, route }: routerWrapperType) => {
 
   if (authData && restrictedRoute) {
     {
-      return <Navigate to="/chat-box" />;
+      return (
+        <Navigate
+          to={`${authData?.emailVerified ? "/chat-box" : "/verification"}`}
+        />
+      );
     }
   }
 
