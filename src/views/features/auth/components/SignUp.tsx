@@ -86,9 +86,6 @@ const SignUp = () => {
                 localStorage.setItem("delphiAccessToken", accessToken);
               })
               .catch((error) => console.log(error));
-            dispatch(setAuth(auth.currentUser));
-            auth?.currentUser && sendEmailVerification(auth.currentUser);
-            dispatch(clearAuthError());
 
             dispatch(
               saveUser({
@@ -105,7 +102,10 @@ const SignUp = () => {
                 sessionStorage.removeItem("userId");
                 sessionStorage.removeItem("wizardPassed");
                 localStorage.setItem("delphiOracleUser", "true");
-                navigate("/chat-box");
+                dispatch(setAuth(auth.currentUser));
+                dispatch(clearAuthError());
+                auth?.currentUser && sendEmailVerification(auth.currentUser);
+                // navigate("/verification");
               })
               .catch((error) => {
                 navigate("/auth/signup");

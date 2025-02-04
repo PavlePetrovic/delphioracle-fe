@@ -21,8 +21,8 @@ const GoogleAuth = ({
   setError,
 }: {
   authType: "LOG_IN" | "SIGN_UP";
-  input: { referralCode?: string; privacyPolicy: boolean };
-  setError: () => void;
+  input?: { referralCode?: string; privacyPolicy: boolean };
+  setError?: () => void;
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -100,7 +100,7 @@ const GoogleAuth = ({
                     ? initiateConversationId.value
                     : `${userIdFromLocalStorage}`,
                   userEmail: `${auth.currentUser?.email}`,
-                  referralCode: `${input.referralCode}`,
+                  referralCode: `${input?.referralCode}`,
                 }),
               )
                 .unwrap()
@@ -145,11 +145,14 @@ const GoogleAuth = ({
       <button
         type="button"
         onClick={() => {
-          if (input.privacyPolicy) {
+          if (
+            (authType === "SIGN_UP" && input?.privacyPolicy) ||
+            authType === "LOG_IN"
+          ) {
             dispatch(clearAuthError());
             handleGoogleSignIn();
           } else {
-            setError();
+            setError && setError();
           }
         }}
         className="bg-glass mt-2 flex w-4/6 cursor-pointer items-center justify-center gap-2.5 rounded-full border border-[#ffffff1d] bg-transparent-gray py-[7px] text-sm font-normal text-white hover:opacity-90 w888:w-full"
