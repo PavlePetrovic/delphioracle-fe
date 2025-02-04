@@ -2,6 +2,10 @@ import { useAppSelector } from "@redux/reduxTypes";
 
 const DailyQuote = () => {
   const authData = useAppSelector((state) => state.authentication.authData);
+  const dailyQuoteGenerating = useAppSelector(
+    (state) =>
+      state.chat.chatData?.value?.daily_quotes?.generating_daily_quotes,
+  );
   const dailyQuote = useAppSelector(
     (state) => state.chat.chatData?.value?.daily_quotes?.daily_quotes_list,
   );
@@ -23,19 +27,17 @@ const DailyQuote = () => {
     );
   }
 
-  console.log(dailyQuote);
-
   return (
-    <div className="bg-dark-blue bg-glass w888:gap-[3px] w888:p-3 flex flex-col gap-0.5 rounded-xl border border-[#ffffff27] p-3">
-      <h5 className="font-philosopher text-gold w888:text-sm text-[20px]">
+    <div className="bg-glass flex flex-col gap-0.5 rounded-xl border border-[#ffffff27] bg-dark-blue p-3 w888:gap-[3px] w888:p-3">
+      <h5 className="font-philosopher text-[20px] text-gold w888:text-sm">
         Your Daily Cosmic Whisper
       </h5>
       {authData ? (
-        <p className="w888:text-xs text-sm font-extralight text-white">
-          {dailyQuote}
+        <p className="text-sm font-extralight text-white w888:text-xs">
+          {dailyQuoteGenerating ? "Generating..." : dailyQuote}
         </p>
       ) : (
-        <p className="w888:text-xs text-sm font-extralight text-white">
+        <p className="text-sm font-extralight text-white w888:text-xs">
           Your journey has begun, and the stars have spoken. Create your account
           to unlock deeper insights into yourself and your relationships.
         </p>

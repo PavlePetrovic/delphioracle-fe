@@ -1,31 +1,18 @@
-import { useIsMobile } from "./common/hooks/useIsMobile";
+import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router";
 import { setIsMobile } from "./redux/global";
-import "./App.css";
-import { useEffect, useState } from "react";
 import { useAppDispatch } from "./redux/reduxTypes";
-import { onAuthStateChanged, User } from "firebase/auth";
+import { useIsMobile } from "@common/hooks/useIsMobile";
 import { setAuth } from "@features/auth/reducer/authentication.reducer";
 import { getUserData } from "@features/chatBox/reducer/chatBox.actions";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebaseConfig/firebaseConfig";
-import { Outlet, useNavigate } from "react-router";
-import ModalWithContent from "@components/ModalStandard/ModalStandard";
+import "./App.css";
 
 function App() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const isMobile = useIsMobile();
-
-  const [emailVerified, setIsEmailVerified] = useState<{
-    verified: boolean;
-    user: User | null;
-  }>({ verified: true, user: null });
-
-  const checkVerificationStatus = async () => {
-    // if (emailVerified?.user) {
-    //   await reload(emailVerified?.user);
-    // }
-    window.location.reload();
-  };
 
   useEffect(() => {
     dispatch(setIsMobile(isMobile));
@@ -37,17 +24,16 @@ function App() {
     const checkAuth = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser && delphiAccessToken) {
         dispatch(setAuth(currentUser));
-        setIsEmailVerified({
-          verified: currentUser?.emailVerified,
-          user: currentUser,
-        });
         currentUser?.uid &&
           dispatch(
             getUserData({
               user_id: `${currentUser?.uid}`,
             }),
           );
-        window.location.pathname === "/" && navigate("/chat-box");
+
+        !currentUser?.emailVerified
+          ? navigate("/verification")
+          : window.location.pathname === "/" && navigate("/chat-box");
       } else {
         const lsPublicUserId = sessionStorage.getItem("userId");
         const lsDelphiUserExist = JSON.parse(
@@ -78,24 +64,6 @@ function App() {
       className="bg-wallpaper bg-cover bg-no-repeat object-cover"
     >
       <Outlet />
-      {!emailVerified?.verified && (
-        <ModalWithContent
-          close={() => null}
-          modalClassName="w-[400px] h-fit"
-          title="Check Email Inbox"
-          hideCloseButton
-          hideCloseIco
-          actionButton={{
-            text: "Verification Completed",
-            onSubmit: checkVerificationStatus,
-          }}
-        >
-          <p className="py-5 text-center text-base font-light text-white">
-            In order to process the magical experience of our app, please
-            confirm your email addres.
-          </p>
-        </ModalWithContent>
-      )}
     </div>
   );
 }

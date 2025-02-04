@@ -13,8 +13,20 @@ const MainFooter = ({ isMobile }: { isMobile?: boolean }) => {
     route: string;
   }> = [
     {
+      text: "How It Works",
+      route: "/how-it-works",
+    },
+    {
       text: "Who Are We",
       route: "/who-are-we",
+    },
+    {
+      text: "FAQ",
+      route: "/faq",
+    },
+    {
+      text: "Reflections",
+      route: "/community-reflections",
     },
     {
       text: "Privacy",
@@ -25,26 +37,14 @@ const MainFooter = ({ isMobile }: { isMobile?: boolean }) => {
       text: "Terms",
       route: "/terms-of-use",
     },
-    {
-      text: "How It Works",
-      route: "/how-it-works",
-    },
-    {
-      text: "FAQ",
-      route: "/faq",
-    },
-    {
-      text: "Reflections",
-      route: "/community-reflections",
-    },
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 z-10 flex justify-center w-full px-5 w888:px-2">
+    <div className="fixed bottom-0 left-0 z-10 flex w-full justify-center px-5 w888:px-2">
       {!isMobile ? (
-        <div className="flex items-center max-w-[1440px] w-full pb-3.5">
+        <div className="flex w-full max-w-[1440px] items-center pb-3.5">
           <div
-            className="flex mr-10 mt-1 cursor-pointer"
+            className="mr-10 mt-1 flex cursor-pointer"
             onClick={() =>
               authData
                 ? navigate("/chat-box")
@@ -53,23 +53,23 @@ const MainFooter = ({ isMobile }: { isMobile?: boolean }) => {
           >
             <img
               src={delphiLogo}
-              className="w-auto h-[16px]"
+              className="h-[16px] w-auto"
               alt="delphi-logo-footer"
             />
           </div>
 
-          <div className="flex items-center gap-4 text-xs text-dimmed-text-gray mr-auto font-extralight">
+          <div className="mr-auto flex items-center gap-4 text-xs font-extralight text-dimmed-text-gray">
             {navLinks.map((navLink, index) => {
               return (
                 <NavLink
                   key={index}
                   to={navLink.route}
                   end={navLink.end ? true : false}
-                  className={`hover:text-white transition-all`}
+                  className={`transition-all hover:text-white`}
                 >
                   {({ isActive }) => (
                     <div
-                      className={`hover:text-white transition-all ${
+                      className={`transition-all hover:text-white ${
                         isActive ? "text-white" : ""
                       }`}
                     >
@@ -86,7 +86,7 @@ const MainFooter = ({ isMobile }: { isMobile?: boolean }) => {
       ) : (
         <>
           {!authData && !window.location.pathname.includes("chat-box") ? (
-            <div className="flex items-center justify-center gap-5 w-full py-4 mb-[7.5px] bg-transparent rounded-xl">
+            <div className="mb-[7.5px] flex w-full items-center justify-center gap-5 rounded-xl bg-transparent py-4">
               {navLinks.map((navLink, index) => {
                 return (
                   <NavLink

@@ -44,8 +44,6 @@ const GetUserInfoWizard = () => {
   const [userInfo, setUserInfo] = useState<userInfoType>(initialUserInfo);
   const [renderStep, setRenderStep] = useState<wizardStepsTypes>("name");
 
-  console.table(userInfo);
-
   const renderSpecificInput = useCallback(
     (inputType: wizardStepsTypes): ReactNode => {
       // Rendering components based on wizard step

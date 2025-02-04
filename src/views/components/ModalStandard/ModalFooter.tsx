@@ -42,7 +42,7 @@ const ModalFooter = ({
   return (
     <div
       ref={customRef || null}
-      className={`rounded-b-2xl bg-dark-blue px-[17px] py-[16px] fixed bottom-0 w-full z-[10] flex gap-3 items-center justify-between ${
+      className={`fixed bottom-0 z-[10] flex w-full items-center justify-between gap-3 rounded-b-2xl bg-dark-blue px-[17px] py-[16px] ${
         containerClassName || ""
       }`}
     >
@@ -62,7 +62,7 @@ const ModalFooter = ({
         )}
         {additionalButtonChildren ? additionalButtonChildren : null}
       </div>
-      <div className={"flex gap-3 items-center justify-center mx-auto"}>
+      <div className={`mx-auto flex items-center justify-center gap-3`}>
         {close && !hideCloseButton && (
           <Button
             type="main"
@@ -70,7 +70,7 @@ const ModalFooter = ({
             onClick={() => close()}
             className={`${
               actionButton?.className ? actionButton?.className : ""
-            } text-[#f6faffc6] py-[7.5px]`}
+            } py-[7.5px] text-[#f6faffc6]`}
           />
         )}
         {actionButton?.onSubmit && (

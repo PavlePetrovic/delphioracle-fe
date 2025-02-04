@@ -13,7 +13,7 @@ const NotExists: FC | any = lazy(
 
 const Verification: FC | any = lazy(
   async () =>
-    await lazyRetry(async () => await import("../components/Verification")),
+    await lazyRetry(async () => await import("../pages/Verification")),
 );
 
 const authRouter: routeType[] = [
@@ -47,7 +47,7 @@ const authRouter: routeType[] = [
       title: "Verify",
       type: "page",
       private: true,
-      restricted: true,
+      // restricted: true,
     },
   },
   {
