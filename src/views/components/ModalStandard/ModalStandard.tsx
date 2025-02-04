@@ -83,7 +83,7 @@ const ModalWithContent = ({
                 <div className={"flex flex-col"}>
                   <h1
                     className={
-                      "text-2xl font-philosopher text-white font-light w888:text-xl text-center -mr-1"
+                      "-mr-1 text-center font-philosopher text-2xl font-light text-white w888:text-xl"
                     }
                   >
                     {title}
@@ -95,7 +95,7 @@ const ModalWithContent = ({
         ) : null}
         <ScrollWrapper
           id="scrollBarContainerBox"
-          className={`bg-dark-blue h-full rounded-3xl px-3.5 ${
+          className={`h-full rounded-3xl bg-dark-blue px-3.5 ${
             hideModalHeader ? "" : "pt-[65px]"
           } ${hideModalFooter ? "" : "pb-[68px]"} ${contentClassName || ""}`}
         >
