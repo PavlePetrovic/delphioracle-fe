@@ -23,14 +23,14 @@ const GetUserInfoWizardBox = ({
   onClickNext: () => void;
 }) => {
   return (
-    <div className="w888:py-4 w888:px-4 flex flex-col items-center gap-4 p-6">
+    <div className="flex flex-col items-center gap-4 rounded-xl p-6 w888:px-4 w888:py-4">
       {header && (
-        <h2 className="font-philosopher w888:text-lg text-center text-3xl leading-8 text-white">
+        <h2 className="text-center font-philosopher text-3xl leading-8 text-white w888:text-lg">
           {header}
         </h2>
       )}
       {label && (
-        <p className="w888:text-sm text-center text-lg font-extralight text-white">
+        <p className="text-center text-lg font-extralight text-white w888:text-sm">
           {label}
         </p>
       )}
@@ -46,7 +46,7 @@ const GetUserInfoWizardBox = ({
             text=""
             onClick={onClickBack}
             CustomIco={<SlArrowLeft />}
-            className="w888:py-[7.5px] py-2.5"
+            className="py-2.5 w888:py-[7.5px]"
           />
         )}
         <Button

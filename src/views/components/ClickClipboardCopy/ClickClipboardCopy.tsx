@@ -28,7 +28,7 @@ const ClickClipboardCopy = (props: {
       }}
     >
       <div
-        className={`bg-transparent-gray bg-glass group flex cursor-pointer items-center gap-2 rounded-full px-5 py-1.5 text-white ${
+        className={`bg-main-grey group flex cursor-pointer items-center gap-2 rounded-full px-5 py-1.5 text-white ${
           props.containterClassName
             ? props.containterClassName
             : props.containterClassName

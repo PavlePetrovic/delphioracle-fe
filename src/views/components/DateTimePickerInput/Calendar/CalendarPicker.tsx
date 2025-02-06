@@ -88,7 +88,7 @@ const CalendarPicker = ({ valueExist, onChange }: propsTypes) => {
   return (
     <>
       {/* CALENDAR INPUT PREVIEW */}
-      <div className="bg-glass flex cursor-pointer items-center justify-center gap-1.5 rounded-[16px] bg-[#e0efff19] p-1.5">
+      <div className="bg-main-grey flex cursor-pointer items-center justify-center gap-1.5 rounded-[16px] p-1.5">
         <div
           className={`animate-pulse rounded-xl bg-[#e0efff1f] px-8 py-2 text-base font-light text-white w888:text-sm ${
             doesInputHaveContent ? "hidden" : ""

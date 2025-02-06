@@ -6,14 +6,14 @@ const GetUserInfoWizardWrapper = ({ children }: { children: ReactNode }) => {
 
   return (
     <div
-      className="w888:px-3 fixed top-0 left-0 z-10 flex h-screen w-full flex-col items-center justify-center bg-transparent px-5"
+      className="fixed left-0 top-0 z-10 flex h-svh w-full flex-col items-center justify-center bg-transparent px-5 w888:px-3"
       style={{
         height: customHeight ? customHeight : "100vh",
         maxHeight: customHeight ? customHeight : "100vh",
       }}
     >
       <div
-        className={`bg-transparent-gray bg-glass fade-in-message-animation w888:w-full relative z-50 m-[18px] flex h-fit w-full max-w-[560px] flex-col gap-2 rounded-xl`}
+        className={`bg-glass colors-transition-animation relative z-50 m-[18px] flex h-fit w-full max-w-[560px] flex-col gap-2 rounded-xl w888:w-full`}
       >
         {children}
       </div>

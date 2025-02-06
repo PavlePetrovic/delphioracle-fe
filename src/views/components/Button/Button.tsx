@@ -32,12 +32,12 @@ const Button = ({
 }: propsTypes) => {
   return type === "goldMain" ? (
     <button
-      className={`bg-transparent-gray bg-glass text-gold w888:py-[5px] w888:px-4 w888:text-sm flex items-center justify-center gap-2 rounded-full border border-[#ffffff1d] px-5 py-1.5 font-light ${className} transition-all hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-65`}
+      className={`bg-main-grey flex items-center justify-center gap-2 rounded-full border border-[#ffffff1d] px-5 py-1.5 font-light text-gold w888:px-4 w888:py-[5px] w888:text-sm ${className} transition-all hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-65`}
       onClick={onClick}
       disabled={disable}
     >
       {text && (
-        <span className="text-gold flex items-center justify-center gap-1.5 font-normal">
+        <span className="flex items-center justify-center gap-1.5 font-normal text-gold">
           {text} {processing ? <Spinner /> : ""}
         </span>
       )}
@@ -50,13 +50,9 @@ const Button = ({
     <button
       className={`flex items-center justify-center gap-2 ${
         customStyle?.border ? customStyle.border : ""
-      } ${
-        customStyle?.background
-          ? customStyle.background
-          : "bg-transparent-gray bg-glass"
-      } ${
+      } ${customStyle?.background ? customStyle.background : "bg-main-grey"} ${
         customStyle?.text ? customStyle.text : "text-white"
-      } w888:py-[5px] w888:px-4 w888:text-sm rounded-full px-5 py-1.5 font-light ${className} transition-all hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-65`}
+      } rounded-full px-5 py-1.5 font-light w888:px-4 w888:py-[5px] w888:text-sm ${className} transition-all hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-65`}
       onClick={onClick}
       disabled={disable}
     >
@@ -78,7 +74,7 @@ const Button = ({
         customStyle?.background ? customStyle.background : "bg-transparent"
       } ${
         customStyle?.text ? customStyle.text : "text-white"
-      } w888:py-1 w888:px-4 w888:text-sm rounded-full px-5 py-1 font-light ${className} transition-all hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-65`}
+      } rounded-full px-5 py-1 font-light w888:px-4 w888:py-1 w888:text-sm ${className} transition-all hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-65`}
       onClick={onClick}
       disabled={disable}
     >
@@ -94,7 +90,7 @@ const Button = ({
     </button>
   ) : type === "naked" ? (
     <button
-      className={`w888:py-1 w888:px-4 w888:text-sm rounded-full px-5 py-1.5 font-light text-white ${className} transition-all hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-65`}
+      className={`rounded-full px-5 py-1.5 font-light text-white w888:px-4 w888:py-1 w888:text-sm ${className} transition-all hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-65`}
       onClick={onClick}
       disabled={disable}
     >

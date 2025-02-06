@@ -53,7 +53,7 @@ const TimerPicker = ({ valueExist, onChange }: propsTypes) => {
     <>
       {/* TIMER INPUT PREVIEW */}
       <div
-        className="bg-glass flex cursor-pointer items-center justify-center rounded-[16px] bg-[#e0efff19] p-1.5"
+        className="bg-main-grey flex cursor-pointer items-center justify-center rounded-[16px] p-1.5"
         onClick={() => setIsOpen(true)}
       >
         <div
@@ -91,7 +91,7 @@ const TimerPicker = ({ valueExist, onChange }: propsTypes) => {
           close={() => {
             setIsOpen(false);
           }}
-          modalClassName="!w-[400px] w888:!w-[320px] !h-fit"
+          modalClassName="!w-[400px] w888:!w-[320px] !h-[333px]"
           hideModalHeader
           hideModalFooter
         >
