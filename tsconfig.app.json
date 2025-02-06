@@ -32,6 +32,7 @@
       "@router/*": ["src/router/*"],
       "@common/*": ["src/common/*"],
       "@views/*": ["src/views/*"],
+      "@appTypes/*": ["src/views/appTypes/*"],
       "@features/*": ["src/views/features/*"],
       "@components/*": ["src/views/components/*"]
     }
