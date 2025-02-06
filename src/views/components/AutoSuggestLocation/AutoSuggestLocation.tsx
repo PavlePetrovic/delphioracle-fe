@@ -194,6 +194,8 @@ const AutoSuggestLocation = ({
             animationIterationCount: "1",
             animationFillMode: "forwards",
             border: "1px solid #e0efff1f",
+            height: isMobile ? "140px" : "200px",
+            overflow: "scroll",
           },
           suggestionsList: {
             zIndex: "999",
@@ -202,6 +204,7 @@ const AutoSuggestLocation = ({
             paddingBlock: "7px",
             paddingInline: "10px",
             fontWeight: "300",
+            fontSize: isMobile ? "14px" : "16px",
           },
           suggestionFirst: {},
           suggestionHighlighted: {
