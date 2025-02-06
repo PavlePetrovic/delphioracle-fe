@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useAppDispatch, useAppSelector } from "@redux/reduxTypes";
-import { getUserData } from "@features/chatBox/reducer/chatBox.actions";
+import { getChatData } from "@/views/features/chat/reducer/chatBox.actions";
 
 const Return = () => {
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ const Return = () => {
     <>
       {status === "complete" ? (
         <section className="flex h-full flex-col items-center justify-center gap-10 p-5">
-          <p className="px-10 text-center font-light text-white uppercase">
+          <p className="px-10 text-center font-light uppercase text-white">
             {status}
           </p>
           <p className="flex flex-col gap-3 px-10 text-center font-light text-white">
@@ -61,7 +61,7 @@ const Return = () => {
           <button
             className="rounded-xl bg-white px-5 py-2"
             onClick={() => {
-              dispatch(getUserData({ user_id: `${authData?.uid}` }));
+              dispatch(getChatData({ user_id: `${authData?.uid}` }));
               navigate("/chat-box");
             }}
           >
@@ -70,7 +70,7 @@ const Return = () => {
         </section>
       ) : (
         <section className="flex h-full flex-col items-center justify-center gap-10 p-5">
-          <p className="px-10 text-center font-light text-white uppercase">
+          <p className="px-10 text-center font-light uppercase text-white">
             Loading...
           </p>
         </section>

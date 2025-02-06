@@ -15,7 +15,7 @@ const Support = () => {
           </span>
           <span>
             Contact Email:{" "}
-            <span className="bg-glass rounded-full bg-transparent-gray px-3 py-1 text-gold">
+            <span className="bg-main-grey rounded-full px-3 py-1 text-gold">
               support@thedelphioracle.com
             </span>
           </span>

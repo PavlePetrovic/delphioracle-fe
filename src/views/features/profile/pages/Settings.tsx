@@ -3,7 +3,7 @@ import { useState } from "react";
 import TextInput from "@components/TextInput/TextInput";
 import { isStringEmpty } from "@common/utility/Utils";
 import { changeReferral, deleteAccount } from "../reducer/profile.actions";
-import { updateChatData } from "@features/chatBox/reducer/chatBox.reducer";
+import { updateChatData } from "@/views/features/chat/reducer/chatBox.reducer";
 import { auth } from "../../../../firebaseConfig/firebaseConfig";
 import { deleteUser, signOut } from "firebase/auth";
 import { setAuth } from "@features/auth/reducer/authentication.reducer";
@@ -18,7 +18,7 @@ const Settings = () => {
     (state) => state.profile.profileSettings,
   );
   const referralCode = useAppSelector(
-    (state) => state.chat.chatData.value?.referral_code,
+    (state) => state.authentication.internalAuthData.value?.referral_code,
   );
 
   const [referralModal, setReferralModal] = useState(false);

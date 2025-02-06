@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../../../redux/reduxTypes";
-import { userInfoType } from "@features/chatBox/chatBoxTypes";
+import { userInfoType } from "@appTypes/universal";
 import TextInput from "@components/TextInput/TextInput";
 import City from "@features/getUserInfo/components/wizardSteps/City";
-// import DateTimePickerInput from "views/components/DateTimePickerInput/DateTimePickerInput";
 import SingleSelect from "@components/SingleSelect/SingleSelect";
 import { initiateSynastryConversation } from "../reducer/synastry.actions";
 import { setSynastryChatInitialFetch } from "../reducer/synastry.reducer";
@@ -89,16 +88,16 @@ const SynastryWizard = () => {
   return (
     <ScrollWrapper id="scrollSynastryWizard" className="mt-2.5 h-full w-full">
       <div className="flex h-full min-h-full w-full flex-col items-center justify-between gap-4">
-        <h1 className="font-philosopher w888:mt-0 w888:text-2xl w888:mb-4 mt-2 text-center text-[34px] text-white">
+        <h1 className="mt-2 text-center font-philosopher text-[34px] text-white w888:mb-4 w888:mt-0 w888:text-2xl">
           Synastry - Add Partner
         </h1>
         <form
           onSubmit={submitHandler}
-          className="w888:w-full flex w-1/2 flex-col gap-4"
+          className="flex w-1/2 flex-col gap-4 w888:w-full"
         >
-          <div className="w888:flex-col flex w-full items-center gap-5">
-            <div className="w888:w-full flex w-1/2 flex-col items-center gap-2.5 pb-[1px]">
-              <p className="w888:text-sm text-center text-base font-light text-white">
+          <div className="flex w-full items-center gap-5 w888:flex-col">
+            <div className="flex w-1/2 flex-col items-center gap-2.5 pb-[1px] w888:w-full">
+              <p className="text-center text-base font-light text-white w888:text-sm">
                 Partner Name
               </p>
               <TextInput
@@ -118,8 +117,8 @@ const SynastryWizard = () => {
                 disabled={false}
               />
             </div>
-            <div className="w888:w-full flex w-1/2 flex-col items-center gap-[11px]">
-              <p className="w888:text-sm text-center text-base font-light text-white">
+            <div className="flex w-1/2 flex-col items-center gap-[11px] w888:w-full">
+              <p className="text-center text-base font-light text-white w888:text-sm">
                 Partner gender
               </p>
               <SingleSelect
@@ -143,7 +142,7 @@ const SynastryWizard = () => {
             </div>
           </div>
           <div className="flex flex-col items-center">
-            <p className="w888:text-sm mb-0.5 text-center text-base font-light text-white">
+            <p className="mb-0.5 text-center text-base font-light text-white w888:text-sm">
               City where your partner were born?
             </p>
             <City
@@ -162,7 +161,7 @@ const SynastryWizard = () => {
               }
             />
           </div>
-          <p className="w888:text-sm mt-2 -mb-3 text-center text-[17px] font-light text-white">
+          <p className="-mb-3 mt-2 text-center text-[17px] font-light text-white w888:text-sm">
             Partner birthday and time
           </p>
           <div className="mx-auto">
@@ -189,20 +188,20 @@ const SynastryWizard = () => {
             />
           </div>
 
-          <div className="w888:mb-4 mt-10">
+          <div className="mt-10 w888:mb-4">
             <Button
               type="goldMain"
               text="Add New One"
               CustomIco={
                 <button
-                  className={`text-gold flex items-center justify-center gap-1 rounded-full bg-[#E0EFFF1F] px-3 py-[1px] font-light`}
+                  className={`flex items-center justify-center gap-1 rounded-full bg-[#E0EFFF1F] px-3 py-[1px] font-light text-gold`}
                   onClick={() => null}
                 >
-                  <CreditsIco className="[&_path]:fill-gold h-auto w-[13px]" />
+                  <CreditsIco className="h-auto w-[13px] [&_path]:fill-gold" />
                   <span className="text-gold">5</span>
                 </button>
               }
-              className="mx-auto w-fit !pr-2.5 !pl-3 !font-extralight"
+              className="mx-auto w-fit !pl-3 !pr-2.5 !font-extralight"
               onClick={() => navigate("/synastry/wizard")}
             />
           </div>

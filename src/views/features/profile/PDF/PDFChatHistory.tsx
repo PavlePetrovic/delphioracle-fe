@@ -1,6 +1,6 @@
 import { Page, View, Document, StyleSheet, Font } from "@react-pdf/renderer";
 import ChatHistory from "./components/ChatHistory";
-import { messageType } from "@features/chatBox/chatBoxTypes";
+import { messageType } from "@appTypes/universal";
 
 const PDFChatHistory = ({ messages }: { messages: messageType[] }) => {
   Font.register({

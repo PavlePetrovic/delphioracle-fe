@@ -7,18 +7,15 @@ import React, {
 } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../redux/reduxTypes";
 import { useParams } from "react-router";
-import {
-  messageType,
-  questionsCategoriesType,
-} from "@features/chatBox/chatBoxTypes";
+import { messageType } from "@appTypes/universal";
+import { questionsCategoriesType } from "@/views/features/chat/types";
 import {
   askSynastryQuestion,
   getSynastryData,
 } from "../reducer/synastry.actions";
-import { getRandomInt, isObjEmpty } from "@common/utility/Utils";
+import { isObjEmpty } from "@common/utility/Utils";
 import ScrollWrapper from "@components/ScrollWrapper/ScrollWrapper";
 import delphiLogo from "@assets/icons/delphi-logo.png";
-import { coolPunchLines } from "@features/chatBox/chatData";
 import TextInput from "@components/TextInput/TextInput";
 import CreditsIco from "@assets/icons/credits-ico.svg";
 import { SlArrowRight } from "react-icons/sl";
@@ -30,14 +27,11 @@ import {
 import SynastryChatNavbar from "../components/SynastryChatNavbar";
 import CreatePortal from "@components/CreatePortal/CreatePortal";
 import Modal from "@components/Modal/Modal";
-import ChatBoxQuestions from "@features/chatBox/pages/ChatBoxQuestions";
+import ChatBoxQuestions from "@/views/features/chat/pages/ChatBoxQuestions";
 import SynastryQuestionsPills from "../components/SynastryQuestionsPills";
 import MarkdownPreview from "@uiw/react-markdown-preview";
-import {
-  decrementCredits,
-  updateCredits,
-} from "@features/chatBox/reducer/chatBox.reducer";
 import PDFButton from "@features/profile/components/PDFButton";
+import { decrementCredits } from "@features/auth/reducer/authentication.reducer";
 
 const SynastryChat = () => {
   const dispatch = useAppDispatch();
@@ -62,7 +56,7 @@ const SynastryChat = () => {
   );
   const loading = useAppSelector((state) => state.synastry.centralizedLoading);
 
-  const sendQuestion = (messageContent: string, credits: number) => {
+  const sendQuestion = (messageContent: string) => {
     if (messageContent) {
       setMessages((prevMessages) => {
         return [
@@ -103,7 +97,7 @@ const SynastryChat = () => {
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    sendQuestion(newMessage, 1);
+    sendQuestion(newMessage);
   };
 
   const alignChatView = () => {
@@ -116,7 +110,7 @@ const SynastryChat = () => {
 
   useEffect(() => {
     if (promptedMessage.value) {
-      sendQuestion(promptedMessage.value, 1);
+      sendQuestion(promptedMessage.value);
     }
     return () => {
       dispatch(clearSynastryPromptedMessage());
@@ -215,7 +209,7 @@ const SynastryChat = () => {
     return (
       <ScrollWrapper
         id="scrollSynastry"
-        className="bg-dark-blue w888:mt-0 w888:px-2 w888:pb-2 mt-3 flex w-full flex-col gap-2 rounded-xl px-5 pb-5"
+        className="mt-3 flex w-full flex-col gap-2 rounded-xl bg-dark-blue px-5 pb-5 w888:mt-0 w888:px-2 w888:pb-2"
       >
         <SynastryChatNavbar />
         {messages.map((message, i) => {
@@ -224,7 +218,7 @@ const SynastryChat = () => {
               key={`${message.message}${i}`}
               className={`${i === 0 ? "-mt-1.5" : ""} ${
                 message.from === "bot" ? "mr-auto" : "ml-auto"
-              } fade-in-message-animation w888:text-sm w480:max-w-[96%] max-w-[90%] rounded-xl bg-[#e0efff11] px-4 py-3.5 text-base font-light break-words text-[#d5d5d5]`}
+              } fade-in-message-animation max-w-[90%] break-words rounded-xl bg-[#e0efff11] px-4 py-3.5 text-base font-light text-[#d5d5d5] w888:text-sm w480:max-w-[96%]`}
             >
               {/* <span
                 className="break-words mx-auto flex flex-col gap-[4px] w-fit"
@@ -252,16 +246,15 @@ const SynastryChat = () => {
         ) : null}
         {loading && (
           <p
-            className={`fade-in-message-animation w888:text-sm w888:max-w-[320px] mr-auto flex max-w-[950px] animate-pulse items-center gap-3 rounded-xl bg-[#e0efff11] px-4 py-3.5 text-sm font-light break-words text-[#d5d5d5]`}
+            className={`fade-in-message-animation mr-auto flex max-w-[950px] animate-pulse items-center gap-3 break-words rounded-xl bg-[#e0efff11] px-4 py-3.5 text-sm font-light text-[#d5d5d5] w888:max-w-[320px] w888:text-sm`}
           >
             <img
               src={delphiLogo}
-              className="w888:w-[22px] h-auto w-[30px]"
+              className="h-auto w-[30px] w888:w-[22px]"
               alt="delphi-logo"
             />
             <span className="mx-auto flex w-fit flex-col gap-[4px] break-words">
-              ...{coolPunchLines[getRandomInt(0, coolPunchLines.length - 1)]}
-              ...
+              Be patient...
             </span>
           </p>
         )}
@@ -275,7 +268,7 @@ const SynastryChat = () => {
       {chatContent}
       <form
         onSubmit={submitHandler}
-        className="bg-dark-blue w888:gap-1.5 mt-2 flex w-full items-center gap-2 rounded-xl py-[5px] pr-2.5"
+        className="mt-2 flex w-full items-center gap-2 rounded-xl bg-dark-blue py-[5px] pr-2.5 w888:gap-1.5"
       >
         <TextInput
           label=""
@@ -291,24 +284,18 @@ const SynastryChat = () => {
           className="!py-2.5"
         />
         <button
-          className="just bg-transparent-gray w888:px-2 w888:py-[7.5px] w888:gap-1.5 flex items-center justify-center gap-2 rounded-full px-5 py-[7px] font-light"
+          className="just flex items-center justify-center gap-2 rounded-full bg-transparent-gray px-5 py-[7px] font-light w888:gap-1.5 w888:px-2 w888:py-[7.5px]"
           type="submit"
           disabled={loading}
         >
-          <span className="text-gold w888:text-sm text-[17px]">Ask</span>
-          <span className="bg-dark-dimmed-blue flex items-center gap-1 rounded-full pr-2 pl-1.5">
-            <CreditsIco className="w888:w-[10px] w888:[&_path]:fill-gold h-auto w-[12px]" />
-            <span className="text-gold w888:text-[10px] text-sm">5</span>
+          <span className="text-[17px] text-gold w888:text-sm">Ask</span>
+          <span className="flex items-center gap-1 rounded-full bg-dark-dimmed-blue pl-1.5 pr-2">
+            <CreditsIco className="h-auto w-[12px] w888:w-[10px] w888:[&_path]:fill-gold" />
+            <span className="text-sm text-gold w888:text-[10px]">5</span>
           </span>
-          <SlArrowRight className="w888:w-[12px] w888:h-auto text-gold -ml-[2px]" />
+          <SlArrowRight className="-ml-[2px] text-gold w888:h-auto w888:w-[12px]" />
         </button>
-        <div
-          className=""
-          onClick={() => {
-            dispatch(updateCredits({ userId: `${authData?.uid}` }));
-            dispatch(decrementCredits(1));
-          }}
-        >
+        <div className="">
           <PDFButton synastry />
         </div>
       </form>

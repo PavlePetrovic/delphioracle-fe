@@ -35,17 +35,17 @@ const SynastryChatNavbar = () => {
   };
 
   return (
-    <div className="bg-dark-blue sticky top-0 left-0 z-[10] flex w-full items-center p-2">
+    <div className="sticky left-0 top-0 z-[10] flex w-full items-center bg-dark-blue p-2">
       <Button
         type="main"
         CustomIco={<BsArrowLeft className={`text-xl`} />}
-        className="mr-4 -ml-2 w-fit !px-2.5 py-[10px]"
+        className="-ml-2 mr-4 w-fit !px-2.5 py-[10px]"
         onClick={() => {
           navigate("/synastry/landing");
           dispatch(clearSynastryChatData());
         }}
       />
-      <h3 className="font-philosopher mr-auto text-lg text-white">
+      <h3 className="mr-auto font-philosopher text-lg text-white">
         {chatData.initialSynastryChatFetch
           ? "Generating synastry..."
           : `You & ${chatData?.value?.thread?.thread_info?.other_person_info?.name}`}
@@ -58,7 +58,7 @@ const SynastryChatNavbar = () => {
               className="flex flex-col items-center justify-center"
               onClick={() => handleTransport(index)}
             >
-              <p className="bg-transparent-gray bg-glass flex h-[35px] w-[35px] items-center justify-center rounded-full border border-[#ffffff2f] p-1.5 text-white  hover:cursor-pointer hover:opacity-80">
+              <p className="bg-main-grey flex h-[35px] w-[35px] items-center justify-center rounded-full border border-[#ffffff2f] p-1.5 text-white  hover:cursor-pointer hover:opacity-80">
                 <ZodiacSymbol
                   zodiac="lion"
                   className={`${

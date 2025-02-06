@@ -1,5 +1,5 @@
 import { ReactNode, useCallback, useState } from "react";
-import { userInfoType } from "@features/chatBox/chatBoxTypes";
+import { userInfoType } from "@appTypes/universal";
 import GetUserInfoWizardWrapper from "../wrappers/GetUserInfoWizardWrapper";
 import Name from "../components/wizardSteps/Name";
 import City from "../components/wizardSteps/City";
@@ -8,7 +8,7 @@ import Gender from "../components/wizardSteps/Gender";
 import GetUserInfoWizardBox from "../components/GetUserInfoWizardBox";
 import Preview from "../components/wizardSteps/Preview";
 import Survey from "../components/wizardSteps/Survey";
-import { initiateConversation } from "@features/chatBox/reducer/chatBox.actions";
+import { initiateConversation } from "@/views/features/chat/reducer/chatBox.actions";
 import { useAppDispatch } from "../../../../redux/reduxTypes";
 import { useNavigate } from "react-router";
 

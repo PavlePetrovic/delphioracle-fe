@@ -1,4 +1,3 @@
-import React from "react";
 import { SlArrowRight } from "react-icons/sl";
 import { useNavigate } from "react-router";
 import Button from "@components/Button/Button";
@@ -7,7 +6,7 @@ const NotExists = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex h-screen w-full flex-col items-center justify-center gap-10">
+    <div className="flex h-svh w-full flex-col items-center justify-center gap-10">
       <h2 className="font-prata text-3xl font-medium text-white">
         This page not exists, please go back.
       </h2>
