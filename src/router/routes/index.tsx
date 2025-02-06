@@ -2,7 +2,7 @@ import MergeLayoutRoutes from "./MergeLayoutRoutes";
 
 // ** Routes Imports
 import userInfoRoutes from "@features/getUserInfo/routes";
-import chatRouter from "@features/chatBox/routes";
+import chatRouter from "@features/chat/routes";
 import authRouter from "@features/auth/routes";
 import profileRouter from "@features/profile/routes";
 import stripeRouter from "@features/stripe/routes";
