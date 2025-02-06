@@ -1,17 +1,19 @@
 // ** Redux Imports
 import { createSlice } from "@reduxjs/toolkit";
 // ** Firebase Imports
-import { changeReferral, deleteAccount } from "./profile.actions";
-
-interface profileType {
-  profileSettings: {
-    value: null;
-    loading: boolean;
-    processing: boolean;
-  };
-}
+import {
+  changeReferral,
+  deleteAccount,
+  getProfileData,
+} from "./profile.actions";
+import { profileType } from "../types";
 
 const initialState: profileType = {
+  profileData: {
+    value: null,
+    loading: false,
+    error: null,
+  },
   profileSettings: {
     value: null,
     loading: false,
@@ -25,6 +27,17 @@ export const profileSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(getProfileData.pending, (state) => {
+        state.profileData.loading = true;
+      })
+      .addCase(getProfileData.fulfilled, (state, { payload }) => {
+        state.profileData.value = payload;
+        state.profileData.loading = false;
+      })
+      .addCase(getProfileData.rejected, (state) => {
+        state.profileData.error = true;
+        state.profileData.loading = false;
+      })
       .addCase(changeReferral.pending, (state) => {
         state.profileSettings.processing = true;
       })
