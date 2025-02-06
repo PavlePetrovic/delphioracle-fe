@@ -12,7 +12,10 @@ import {
 } from "../reducer/authentication.reducer";
 import { useAppDispatch, useAppSelector } from "../../../../redux/reduxTypes";
 import { FcGoogle } from "react-icons/fc";
-import { saveUser } from "../reducer/authentication.actions";
+import {
+  getInternalAuthData,
+  saveUser,
+} from "../reducer/authentication.actions";
 import { useNavigate } from "react-router";
 
 const GoogleAuth = ({
@@ -67,6 +70,11 @@ const GoogleAuth = ({
 
               dispatch(clearAuthError());
               dispatch(setAuth(auth.currentUser));
+              console.log("GoogleAuth.tsx -> getInternalAuthData 1");
+              auth.currentUser &&
+                dispatch(
+                  getInternalAuthData({ user_id: auth.currentUser.uid }),
+                );
               sessionStorage.removeItem("userId");
               sessionStorage.removeItem("wizardPassed");
               localStorage.setItem("delphiOracleUser", "true");
@@ -91,7 +99,7 @@ const GoogleAuth = ({
               const userIdFromLocalStorage = sessionStorage.getItem("userId");
 
               dispatch(clearAuthError());
-              dispatch(setAuth(auth.currentUser));
+              auth.currentUser && dispatch(setAuth(auth.currentUser));
 
               dispatch(
                 saveUser({
@@ -115,6 +123,11 @@ const GoogleAuth = ({
                   sessionStorage.removeItem("userId");
                   sessionStorage.removeItem("wizardPassed");
                   localStorage.setItem("delphiOracleUser", "true");
+                  console.log("GoogleAuth.tsx -> getInternalAuthData 2");
+                  auth.currentUser &&
+                    dispatch(
+                      getInternalAuthData({ user_id: auth.currentUser.uid }),
+                    );
                   navigate("/chat-box");
                 })
                 .catch((error) => {
@@ -155,7 +168,7 @@ const GoogleAuth = ({
             setError && setError();
           }
         }}
-        className="bg-glass mt-2 flex w-4/6 cursor-pointer items-center justify-center gap-2.5 rounded-full border border-[#ffffff1d] bg-transparent-gray py-[7px] text-sm font-normal text-white hover:opacity-90 w888:w-full"
+        className="mt-2 flex w-4/6 cursor-pointer items-center justify-center gap-2.5 rounded-full border border-[#ffffff1d] bg-main-grey bg-transparent-gray py-[7px] text-sm font-normal text-white hover:opacity-90 w888:w-full"
       >
         <FcGoogle className="text-[21px]" />
         <span className="leading-2 mt-[1px]">Continue with Google</span>

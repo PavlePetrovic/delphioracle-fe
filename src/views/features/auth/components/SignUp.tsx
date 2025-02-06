@@ -208,7 +208,7 @@ const SignUp = () => {
       <button
         type="submit"
         disabled={isStringEmpty(input.email) || isStringEmpty(input.password)}
-        className={`bg-glass mt-2 flex w-4/6 cursor-pointer items-center justify-center gap-2.5 rounded-full border border-[#ffffff1d] bg-transparent-gray py-[7px] text-sm font-normal text-gold w888:w-full ${
+        className={`bg-main-grey mt-2 flex w-4/6 cursor-pointer items-center justify-center gap-2.5 rounded-full border border-[#ffffff1d] bg-transparent-gray py-[7px] text-sm font-normal text-gold w888:w-full ${
           isStringEmpty(input.email) || isStringEmpty(input.password)
             ? ""
             : "hover:opacity-90"

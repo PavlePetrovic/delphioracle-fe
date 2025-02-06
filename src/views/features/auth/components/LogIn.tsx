@@ -17,6 +17,7 @@ import {
   validateEmail,
   validatePassword,
 } from "@common/utility/Utils";
+import { getInternalAuthData } from "../reducer/authentication.actions";
 
 const initialInput = {
   email: "",
@@ -54,6 +55,9 @@ const LogIn = () => {
               })
               .catch((error) => console.log(error));
             auth.currentUser && dispatch(setAuth(auth.currentUser));
+            console.log("LogIn.tsx -> getInternalAuthData");
+            auth.currentUser &&
+              dispatch(getInternalAuthData({ user_id: auth.currentUser.uid }));
             sessionStorage.removeItem("userId");
             sessionStorage.removeItem("wizardPassed");
             localStorage.setItem("delphiOracleUser", "true");
@@ -85,7 +89,7 @@ const LogIn = () => {
     <form
       onSubmit={handleLogIn}
       className={`flex w-full flex-col items-center justify-center ${
-        input.error ? "h600:gap-0.5 gap-1.5" : "h600:gap-2 h500:gap-0.5 gap-5"
+        input.error ? "gap-1.5 h600:gap-0.5" : "gap-5 h500:gap-0.5 h600:gap-2"
       }`}
     >
       <EmailInput
@@ -106,16 +110,16 @@ const LogIn = () => {
       <button
         type="submit"
         disabled={isStringEmpty(input.email) || isStringEmpty(input.password)}
-        className={`bg-transparent-gray bg-glass text-gold w888:w-full mt-2 flex w-4/6 cursor-pointer items-center justify-center gap-2.5 rounded-full border border-[#ffffff1d] py-[7px] text-sm font-normal ${
+        className={`mt-2 flex w-4/6 cursor-pointer items-center justify-center gap-2.5 rounded-full border border-[#ffffff1d] bg-main-grey py-[7px] text-sm font-normal text-gold w888:w-full ${
           isStringEmpty(input.email) || isStringEmpty(input.password)
             ? ""
             : "hover:opacity-90"
         }`}
       >
-        <span className="text-gold leading-2">Log In</span>
+        <span className="leading-2 text-gold">Log In</span>
         <BsArrowRight className="text-xl" />
       </button>
-      <div className="mt-4 mb-3 h-[1px] w-full bg-[#ffffff38]"></div>
+      <div className="mb-3 mt-4 h-[1px] w-full bg-[#ffffff38]"></div>
       <GoogleAuth authType="LOG_IN" />
     </form>
   );
