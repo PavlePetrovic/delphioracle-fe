@@ -36,7 +36,7 @@ const CreditsModal = ({ closeModal }: { closeModal: () => void }) => {
 
   const authData = useAppSelector((state) => state.authentication.authData);
   const referralCode = useAppSelector(
-    (state) => state.chat.chatData.value?.referral_code,
+    (state) => state.authentication.internalAuthData.value?.referral_code,
   );
 
   return (
@@ -46,10 +46,10 @@ const CreditsModal = ({ closeModal }: { closeModal: () => void }) => {
       modalClassName="!w-[1000px] !h-[730px]"
       // hideModalFooter
     >
-      <div className="bg-dark-blue w888:px-2 w888:py-3.5 flex h-full w-full flex-col gap-10 rounded-xl px-8 pt-2">
-        <div className="w888:gap-5 mx-auto flex flex-wrap items-center justify-center gap-10">
+      <div className="flex h-full w-full flex-col gap-10 rounded-xl bg-dark-blue px-8 pt-2 w888:px-2 w888:py-3.5">
+        <div className="mx-auto flex flex-wrap items-center justify-center gap-10 w888:gap-5">
           <div className="flex h-[180px] w-full max-w-[320px] flex-col items-center gap-1 rounded-xl border border-[#ffffff42] p-2">
-            <h4 className="text-gold font-philosopher text-2xl font-normal">
+            <h4 className="font-philosopher text-2xl font-normal text-gold">
               Invite Friends
             </h4>
             <p className="mt-auto text-center text-sm font-light text-white">
@@ -59,10 +59,12 @@ const CreditsModal = ({ closeModal }: { closeModal: () => void }) => {
               Share your code:
             </p>
             <div className="mb-1 w-full px-3">
-              <ClickClipboardCopy text={`${referralCode}`} />
+              <ClickClipboardCopy
+                text={`${referralCode ? referralCode?.toLocaleUpperCase() : "Generating..."}`}
+              />
             </div>
           </div>
-          <div className="flex h-[180px] w-full max-w-[320px] cursor-not-allowed flex-col items-center gap-1 rounded-xl border border-[#ffffff42] p-2 opacity-60">
+          {/* <div className="flex h-[180px] w-full max-w-[320px] cursor-not-allowed flex-col items-center gap-1 rounded-xl border border-[#ffffff42] p-2 opacity-60">
             <h4 className="text-gold font-philosopher text-2xl font-normal">
               Watch Ads
             </h4>
@@ -72,19 +74,19 @@ const CreditsModal = ({ closeModal }: { closeModal: () => void }) => {
             <div className="mt-[32px] mb-1 w-full px-3">
               <Button type="main" text="Start Watching" className="w-full" />
             </div>
-          </div>
+          </div> */}
         </div>
-        <div className="w888:gap-5 w888:grid-cols-1 mx-auto grid grid-cols-2 flex-wrap items-center justify-center gap-10">
+        <div className="mx-auto grid grid-cols-2 flex-wrap items-center justify-center gap-10 w888:grid-cols-1 w888:gap-5">
           {packagesTypes.map((type, index) => {
             return (
               <div
                 key={index}
-                className={`w480:w-[280px] flex h-[160px] w-[330px] items-center justify-between rounded-xl border border-[#ffffff42] p-2 ${
+                className={`flex h-[160px] w-[330px] items-center justify-between rounded-xl border border-[#ffffff42] p-2 w480:w-[280px] ${
                   type.name === "" ? "cursor-not-allowed opacity-60" : ""
                 }`}
               >
                 <div className="flex h-full flex-col justify-between">
-                  <h3 className="font-philosopher text-gold w-1/2 text-[28px]">
+                  <h3 className="w-1/2 font-philosopher text-[28px] text-gold">
                     {type.name}
                   </h3>
                   <p className="text-base font-light text-white">
@@ -104,7 +106,7 @@ const CreditsModal = ({ closeModal }: { closeModal: () => void }) => {
                     }
                     actionIco
                     customStyle={{ icon: "w-[14px] h-auto" }}
-                    className={`!px-3 !py-1 !text-[13px] !font-light whitespace-nowrap ${
+                    className={`whitespace-nowrap !px-3 !py-1 !text-[13px] !font-light ${
                       type.name === "" ? "cursor-not-allowed opacity-60" : ""
                     }`}
                   />
