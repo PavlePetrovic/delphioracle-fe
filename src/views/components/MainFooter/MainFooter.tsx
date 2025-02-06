@@ -84,27 +84,7 @@ const MainFooter = ({ isMobile }: { isMobile?: boolean }) => {
           <p className="text-xs text-dimmed-text-gray">2025 Delphi Oracle </p>
         </div>
       ) : (
-        <>
-          {!authData && !window.location.pathname.includes("chat-box") ? (
-            <div className="mb-[7.5px] flex w-full items-center justify-center gap-5 rounded-xl bg-transparent py-4">
-              {navLinks.map((navLink, index) => {
-                return (
-                  <NavLink
-                    key={index}
-                    to={navLink.route}
-                    end={navLink.end ? true : false}
-                  >
-                    <p className="text-xs text-dimmed-text-gray">
-                      {navLink.text}
-                    </p>
-                  </NavLink>
-                );
-              })}
-            </div>
-          ) : (
-            <MobileMainFooter />
-          )}
-        </>
+        <MobileMainFooter />
       )}
     </div>
   );

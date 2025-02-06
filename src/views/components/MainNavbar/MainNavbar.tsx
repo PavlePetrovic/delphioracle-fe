@@ -4,7 +4,7 @@ import Button from "../Button/Button";
 import { useAppDispatch, useAppSelector } from "../../../redux/reduxTypes";
 import { signOut } from "firebase/auth";
 import { setAuth } from "@features/auth/reducer/authentication.reducer";
-import { clearChatData } from "@features/chatBox/reducer/chatBox.reducer";
+import { clearChatData } from "@/views/features/chat/reducer/chatBox.reducer";
 import { auth } from "../../../firebaseConfig/firebaseConfig";
 import NavbarLinks from "../NavbarLinks/NavbarLinks";
 import { IoMdLogOut } from "react-icons/io";
@@ -25,7 +25,7 @@ const MainNavbar = () => {
   };
 
   return (
-    <div className="relative z-50 flex w-full justify-center px-5 w888:px-2">
+    <div className="relative z-50 flex w-full justify-center px-5 w888:px-3">
       <div className="flex w-full max-w-[1440px] items-center py-3 w888:py-2">
         <div
           className="mr-auto flex cursor-pointer"
