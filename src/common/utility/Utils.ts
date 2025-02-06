@@ -116,7 +116,7 @@ export const lazyRetry = function (
 
 export function getBrowser(agent: string) {
   console.log(agent);
-  let agentFormatted = agent.toLocaleLowerCase();
+  let agentFormatted = agent?.toLocaleLowerCase();
   switch (true) {
     case agentFormatted.indexOf("edge") > -1:
       return { value: "ms-edge", human: "MS Edge" };
