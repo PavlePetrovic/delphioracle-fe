@@ -2,8 +2,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 // ** Axios Imports
 import { http } from "@common/api/http";
-import { RootState } from "../../../../redux/store";
-import { updateCredits } from "@features/chatBox/reducer/chatBox.reducer";
+import { RootState } from "@redux/store";
+import { chatDataType } from "@appTypes/universal";
+import { setCredits } from "./authentication.reducer";
 
 export const saveUser = createAsyncThunk<
   any,
@@ -15,7 +16,7 @@ export const saveUser = createAsyncThunk<
   },
   { state: RootState }
 >(
-  "company/saveUser",
+  "auth/saveUser",
   async ({ userId, tmpUserId, userEmail, referralCode }, { dispatch }) => {
     try {
       const response: any = await http.post(
@@ -31,7 +32,7 @@ export const saveUser = createAsyncThunk<
         },
       );
 
-      dispatch(updateCredits(response.data?.body?.credits));
+      dispatch(setCredits(response.data?.body?.credits));
 
       return response.data;
     } catch (err: any) {
@@ -39,3 +40,34 @@ export const saveUser = createAsyncThunk<
     }
   },
 );
+
+export const getInternalAuthData = createAsyncThunk<
+  any,
+  { user_id: string },
+  { state: RootState }
+>("auth/getInternalAuthData", async ({ user_id }) => {
+  try {
+    const response: any = await http.post(
+      `${import.meta.env.VITE_API_BASELINK}/get-user-data`,
+      {
+        user_id: user_id,
+      },
+    );
+
+    const responseObj: chatDataType = response.data?.body?.user_data;
+
+    return {
+      user_id: responseObj?.user_id,
+      credits: responseObj?.account_info?.credits,
+      account_info: responseObj?.account_info,
+      user_info: responseObj?.account_info?.user_info,
+      processing: responseObj?.processing,
+      email: responseObj?.email,
+      referral_code: responseObj?.referral_code,
+      createdAt: responseObj?.createdAt,
+      expiredAt: responseObj?.expiredAt,
+    };
+  } catch (err: any) {
+    return err.response.data;
+  }
+});
