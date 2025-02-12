@@ -100,10 +100,10 @@ const MobileMainFooter = () => {
             <BoxModal>
               <div
                 ref={menuRef}
-                className="slide-in-bottom absolute bottom-0 left-0 h-full w-full px-10 py-[74px]"
+                className="slide-in-bottom absolute bottom-0 left-0 h-full w-full px-7 py-[42px]"
               >
-                <div className="mx-auto flex h-full w-full flex-col items-center justify-between rounded-xl border border-gold bg-[#3d4653] py-5">
-                  <h3 className="font-philosopher text-2xl text-gold">Menu</h3>
+                <div className="mx-auto flex h-full w-full flex-col items-center justify-between rounded-xl border-[0.5px] border-main-grey bg-dark-blue py-5">
+                  <h3 className="font-philosopher text-2xl text-white">Menu</h3>
                   <div className="flex flex-col items-center gap-1.5">
                     {legalNavLinks.map((navLink, index) => {
                       return (
@@ -131,8 +131,8 @@ const MobileMainFooter = () => {
                   <Button
                     text="Close"
                     onClick={() => setIsMenuOpen(false)}
-                    type="goldMain"
-                    className="mt-5 w-1/2"
+                    type="main"
+                    className="mt-5 w-1/3 w888:w-1/2"
                   />
                 </div>
               </div>
