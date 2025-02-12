@@ -1,3 +1,5 @@
+import { isStringEmpty } from "../utility/Utils";
+
 export const getInitials = (fullName: string) => {
   const allNames = fullName.trim().split(" ");
   const initials = allNames.reduce((acc, curr, index) => {
@@ -11,4 +13,8 @@ export const getInitials = (fullName: string) => {
 
 export const areArraysDifferent = (a: any[], b: any[]) => {
   return JSON.stringify(a) !== JSON.stringify(b);
+};
+
+export const renderString = (string?: string) => {
+  return string ? (!isStringEmpty(string) ? string : string) : "";
 };
