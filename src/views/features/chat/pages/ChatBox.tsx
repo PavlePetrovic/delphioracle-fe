@@ -30,6 +30,7 @@ import { askQuestion, getChatData } from "../reducer/chatBox.actions";
 import { decrementCredits } from "@features/auth/reducer/authentication.reducer";
 
 import PdfModal from "../components/PdfModal";
+import NoMoreCreditsModal from "../components/NoMoreCreditsModal";
 import { messageType } from "@appTypes/universal";
 import { questionsCategoriesType } from "../types";
 import { getInternalAuthData } from "../../auth/reducer/authentication.actions";
@@ -42,7 +43,7 @@ const ChatBox = ({ isPublic }: { isPublic?: boolean }) => {
   const [messages, setMessages] = useState<Array<messageType>>([]);
   const [newMessage, setNewMessage] = useState<string>("");
   const [isDemoFinished, setIsDemoFinished] = useState(false);
-  const [creditsModal, setCreditsModal] = useState(false);
+  const [noMoreCreditsModal, setNoMoreCreditsModal] = useState(false);
   const [signUpModal, setSignUpModal] = useState(false);
   const [pdfModal, setPdfModal] = useState(false);
   const [questionsModal, setQuestionsModal] = useState<{
@@ -71,7 +72,7 @@ const ChatBox = ({ isPublic }: { isPublic?: boolean }) => {
     const lsTmpUserId = sessionStorage.getItem("userId");
     if (messageContent) {
       if (!isPublic && !credits) {
-        setCreditsModal(true);
+        setNoMoreCreditsModal(true);
       } else {
         setMessages((prevMessages) => {
           return [
@@ -376,53 +377,12 @@ const ChatBox = ({ isPublic }: { isPublic?: boolean }) => {
           />
         </div>
       )}
-      {isDemoFinished && !authData && (
-        <CreatePortal>
-          <BoxModal>
-            <div className="flex h-full w-full flex-col items-center justify-center gap-8 p-10">
-              <div className="rounded-full bg-[#ebebeb] p-2">
-                <AstroSignSelector
-                  type="icon"
-                  className="text-[35px] text-[#0D101A]"
-                />
-              </div>
-              <h2 className="w-fit text-center text-2xl font-medium text-[#ebebeb] drop-shadow-lg">
-                Log in so that you can continue exploring the astrological realm
-              </h2>
-              {!isObjEmpty(internalAuthData?.user_info) && (
-                <p className="w-fit text-center text-base font-medium text-[#ebebeb] drop-shadow-lg">
-                  We are expecting you, {internalAuthData?.user_info?.name}!
-                </p>
-              )}
-              <button
-                onClick={() => navigate("/auth/signup")}
-                className="mt-3 animate-pulse rounded-xl bg-[#ebebeb] px-10 py-1.5 font-medium text-[#0D101A] hover:bg-[#ebebebc7]"
-              >
-                Sign Up
-              </button>
-            </div>
-          </BoxModal>
-        </CreatePortal>
-      )}
-      {creditsModal && (
-        <CreatePortal>
-          <BoxModal>
-            <div className="flex h-full w-full flex-col items-center justify-center gap-8 p-10">
-              <div className="rounded-full bg-[#ebebeb] p-2"></div>
-              <h2 className="w-fit text-center text-2xl font-medium text-[#ebebeb] drop-shadow-lg">
-                {!authData
-                  ? "Sign Up to Unlock More Credits!"
-                  : "Out of Credits!"}
-              </h2>
-              <p className="w-fit text-center text-base font-medium text-[#ebebeb] drop-shadow-lg">
-                {!authData
-                  ? "You've used up your credits, but don't worry—the stars are generous! Sign up now to claim more credits to continue your journey with the Oracle "
-                  : "You've run out of credits, but your journey isn't over yet. The stars are still waiting to reveal their secrets! "}
-              </p>
-            </div>
-          </BoxModal>
-        </CreatePortal>
-      )}
+      {noMoreCreditsModal || (isDemoFinished && !authData) ? (
+        <NoMoreCreditsModal
+          closeNoMoreCreditsModal={() => setNoMoreCreditsModal(false)}
+          isPublic={authData ? false : true}
+        />
+      ) : null}
       {questionsModal.isOpen && (
         <CreatePortal root="modal">
           <Modal

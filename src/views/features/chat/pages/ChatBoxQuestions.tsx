@@ -25,8 +25,8 @@ import {
   setSynastryPromptedMessage,
 } from "@features/synastry/reducer/synastry.reducer";
 import { isStringEmpty } from "@common/utility/Utils";
-// import { logEvent } from "firebase/analytics";
-// import { analytics } from "../../../../firebaseConfig/firebaseConfig";
+import { logEvent } from "firebase/analytics";
+import { analytics } from "../../../../firebaseConfig/firebaseConfig";
 
 const chatQuestionsCategories: Array<{
   category: questionsCategoriesType;
@@ -187,9 +187,9 @@ const ChatBoxQuestions = ({
                           ? "All"
                           : data.category;
                     });
-                    // import.meta.env.VITE_ENV === "production" &&
-                    //   analytics &&
-                    //   logEvent(analytics, `prompt_category_${data.category}`);
+                    import.meta.env.VITE_ENV === "production" &&
+                      analytics &&
+                      logEvent(analytics, `prompt_category_${data.category}`);
                   }}
                   className={`flex h-[60px] min-h-[60px] w-[60px] min-w-[60px] cursor-pointer flex-col items-center justify-between gap-1 rounded-xl border border-[#ffffff0f] bg-main-grey p-2 ${
                     filter === data.category ? "border border-gold" : ""
@@ -239,9 +239,9 @@ const ChatBoxQuestions = ({
                           ? "All"
                           : data.category;
                     });
-                    // import.meta.env.VITE_ENV === "production" &&
-                    //   analytics &&
-                    //   logEvent(analytics, `prompt_category_${data.category}`);
+                    import.meta.env.VITE_ENV === "production" &&
+                      analytics &&
+                      logEvent(analytics, `prompt_category_${data.category}`);
                   }}
                   className={`group flex items-center justify-start gap-3 border p-4 ${
                     filter === data.category

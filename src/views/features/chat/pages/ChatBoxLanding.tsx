@@ -56,9 +56,9 @@ const ChatBoxLanding = () => {
           reveal at first glance. Thereafter, your heart's queries are welcome -
           feel free to ask anything your soul yearns to know.
         </h2>
-        <p className="rounded-2xl px-8 py-5 text-center text-lg font-extralight text-[#FFFFFF7A] text-white w888:mx-3 w888:px-6 w888:py-4 w888:text-base">
+        <p className="animate-pulse rounded-2xl px-8 py-5 text-center text-lg font-extralight text-[#FFFFFF7A] text-white w888:mx-3 w888:px-6 w888:py-4 w888:text-base">
           {/* ...{coolPunchLines[getRandomInt(0, coolPunchLines.length - 1)]}... */}
-          Please, be patient...
+          The cosmos works in its own time - thank you for your patience.
         </p>
       </div>
     );
