@@ -27,9 +27,21 @@ export type threadType = {
   messages: Array<messageType>;
   thread_info: {
     thread_id: string;
-    other_person_info: userInfoType;
   };
   processing: boolean;
+};
+
+export type userReport = {
+  profile_stats: {
+    ascendant: string;
+    moon: string;
+    modality: Array<string | number>;
+    sun: string;
+    element: Array<string | number>;
+    polarity: {
+      yin: number;
+    };
+  };
 };
 
 export type accountInfoType = {
@@ -39,18 +51,7 @@ export type accountInfoType = {
   invited_through_referral_code: string;
   package_status: "free" | "paid";
   user_info: userInfoType;
-  report: {
-    profile_stats: {
-      ascendant: string;
-      moon: string;
-      modality: Array<string | number>;
-      sun: string;
-      element: Array<string | number>;
-      polarity: {
-        yin: number;
-      };
-    };
-  };
+  report: userReport;
 };
 
 export type dailyQuoteType = {
