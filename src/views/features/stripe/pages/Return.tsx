@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useAppDispatch, useAppSelector } from "@redux/reduxTypes";
-import { getChatData } from "@/views/features/chat/reducer/chatBox.actions";
+import { getInternalAuthData } from "../../auth/reducer/authentication.actions";
+import Button from "@/views/components/Button/Button";
 
 const Return = () => {
   const navigate = useNavigate();
@@ -11,7 +12,6 @@ const Return = () => {
   const authData = useAppSelector((state) => state.authentication.authData);
 
   const [status, setStatus] = useState(null);
-  const [customerEmail, setCustomerEmail] = useState("");
 
   useEffect(() => {
     const sessionId = key.sessionId;
@@ -34,7 +34,7 @@ const Return = () => {
         const dataParsed = JSON.parse(data.body)?.checkout_session;
 
         setStatus(dataParsed.status);
-        setCustomerEmail(dataParsed.customer_details?.email);
+        // setCustomerEmail(dataParsed.customer_details?.email);
       });
   }, []);
 
@@ -42,31 +42,37 @@ const Return = () => {
     if (status === "open") {
       navigate("/checkout");
     }
-  }, [status]);
+    if (status === "complete" && authData?.uid) {
+      dispatch(getInternalAuthData({ user_id: authData?.uid }));
+    }
+  }, [status, authData]);
 
   return (
     <>
       {status === "complete" ? (
         <section className="flex h-full flex-col items-center justify-center gap-10 p-5">
-          <p className="px-10 text-center font-light uppercase text-white">
+          {/* <p className="px-10 text-center font-light uppercase text-white">
             {status}
-          </p>
-          <p className="flex flex-col gap-3 px-10 text-center font-light text-white">
-            <span className="text-xl">We appreciate your purchase.</span>
+          </p> */}
+          <p className="flex flex-col gap-8 px-10 text-center font-light text-white">
+            <span className="text-2xl">You're Powered Up! ⚡</span>
+            <span className="text-xl">
+              Big thanks for fueling the magic! 🫶
+            </span>
             <span>
-              Your message credits are like cosmic tokens, ready to illuminate
-              your journey ahead. {customerEmail}
+              Your credits are now in your cosmic vault - ready to spark your
+              journey. ✨
+            </span>
+            <span className="-mt-4">
+              Need anything? Reach us at: support@thedelphioracle.com 🔮
             </span>
           </p>
-          <button
-            className="rounded-xl bg-white px-5 py-2"
-            onClick={() => {
-              dispatch(getChatData({ user_id: `${authData?.uid}` }));
-              navigate("/chat-box");
-            }}
-          >
-            Go back to chat
-          </button>
+          <Button
+            type="goldMain"
+            text="Back To Chat"
+            actionIco
+            onClick={() => navigate("/chat-box")}
+          />
         </section>
       ) : (
         <section className="flex h-full flex-col items-center justify-center gap-10 p-5">
