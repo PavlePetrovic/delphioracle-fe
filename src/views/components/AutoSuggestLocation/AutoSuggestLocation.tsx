@@ -4,9 +4,10 @@ import Autosuggest, {
   SuggestionsFetchRequestedParams,
 } from "react-autosuggest";
 import { useAppDispatch, useAppSelector } from "@redux/reduxTypes";
-import { getLocations } from "@features/getUserInfo/reducer/userData.actions";
+import { getLocations } from "@features/infoWizard/reducer/userData.actions";
 import { useDebounce } from "@common/hooks/useDebounce";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { renderString } from "@/common/helpers/functions.helpers";
 
 type Item = {
   city: string;
@@ -53,25 +54,42 @@ const AutoSuggestLocation = ({
 
   const searchDebouncer = useDebounce(value, 500);
 
+  const formatAddress = (
+    city: string,
+    county?: string,
+    state?: string,
+    country?: string,
+  ) => {
+    return `${renderString(city) + ","} ${renderString(county) + ","} ${renderString(state) + ","} ${renderString(country)}`;
+  };
+
   const getSuggestions = (item: string) => {
     return item.length === 0
       ? []
-      : items.filter(
-          (itemAr) => itemAr.formattedAddress.slice(0, item.length) === item,
-        );
+      : items.filter((itemAr) => {
+          return itemAr?.formattedAddress?.slice(0, item.length) === item;
+        });
   };
 
-  const getSuggestionValue = (suggestion: Item) => suggestion.formattedAddress;
+  const getSuggestionValue = (suggestion: Item) =>
+    formatAddress(
+      suggestion?.city,
+      suggestion?.county,
+      suggestion?.state,
+      suggestion?.country,
+    );
 
   const renderSuggestion = (suggestion: Item) => (
     <div className="flex items-center gap-2">
       <span>{suggestion?.countryFlag}</span>
       <div className="-mb-[2px] h-[10px] w-[1px] bg-[#e0efff3f]"></div>
       <span>
-        {suggestion?.city ? `${suggestion?.city}, ` : ""}
-        {suggestion?.county ? `${suggestion?.county}, ` : ""}
-        {suggestion?.state ? `${suggestion?.state}, ` : ""}
-        {suggestion?.country ? `${suggestion?.country}` : ""}
+        {formatAddress(
+          suggestion?.city,
+          suggestion?.county,
+          suggestion?.state,
+          suggestion?.country,
+        )}
       </span>
     </div>
   );
@@ -90,8 +108,15 @@ const AutoSuggestLocation = ({
       { newValue }: ChangeEvent,
     ) => {
       setValue(newValue);
+
       const getValueObject = items.find(
-        (item: Item) => item.formattedAddress === newValue,
+        (item: Item) =>
+          formatAddress(
+            item?.city,
+            item?.county,
+            item?.state,
+            item?.country,
+          ) === newValue,
       );
 
       setValueObject(getValueObject);
@@ -117,7 +142,7 @@ const AutoSuggestLocation = ({
           };
         });
 
-      setItems(customItems);
+      setItems(customItems?.filter((item: Item) => item?.city));
     }
   }, [locValues.values]);
 
