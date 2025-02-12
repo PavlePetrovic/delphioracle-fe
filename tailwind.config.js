@@ -17,6 +17,9 @@ module.exports = {
       h600: {
         raw: "(max-height: 600px)",
       },
+      h710: {
+        raw: "(max-height: 710px)",
+      },
       h900: {
         raw: "(max-height: 900px)",
       },

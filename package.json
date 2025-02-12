@@ -10,7 +10,8 @@
     "build": "vite build",
     "build:dev": "env-cmd -f .env.development npm run-script build",
     "build:prod": "env-cmd -f .env.production npm run-script build",
-    "analyze": "webpack-bundle-analyzer build/bundle-stats.json"
+    "analyze": "webpack-bundle-analyzer build/bundle-stats.json",
+    "test": "tsc -b"
   },
   "dependencies": {
     "@react-pdf/renderer": "^4.1.6",
