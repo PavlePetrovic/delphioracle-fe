@@ -27,19 +27,19 @@ const GenderInput = ({ valueExist, onChange }: propsTypes) => {
   }, [valueExist]);
 
   return (
-    <div className="flex gap-8 items-center justify-center w-full -mb-2 w888:flex-col w888:gap-3">
+    <div className="-mb-2 flex w-full items-center justify-center gap-8 w888:flex-col w888:gap-3">
       {genders.map((gender) => {
         return (
           <div
             key={gender}
-            className={`bg-dark-blue text-base py-3 rounded-2xl w-[140px] text-center hover:opacity-75 hover:cursor-pointer ${
+            className={`w-[140px] rounded-2xl bg-dark-blue py-3 text-center text-base hover:cursor-pointer hover:opacity-75 ${
               gender === value
                 ? "border border-[#ffffff39] text-gold"
                 : "border border-transparent text-white"
             } w888:w-full w888:py-2.5 w888:text-sm`}
             onClick={() => setValue(gender)}
           >
-            {gender}
+            {gender === "Other" ? "Beyond" : gender}
           </div>
         );
       })}
