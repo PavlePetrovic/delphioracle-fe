@@ -1,5 +1,5 @@
 import { Fragment, ReactNode, useEffect, useState } from "react";
-import ArrowDown from "../../../assets/icons/arrow-down-2.svg";
+import ArrowDown from "@assets/icons/arrow-down-2.svg";
 
 type propsTypes = {
   title: string | ReactNode;
