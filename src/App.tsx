@@ -39,9 +39,7 @@ function App() {
           email: currentUser?.email ? currentUser?.email : "no-email",
         });
 
-        !currentUser?.emailVerified
-          ? navigate("/verification")
-          : window.location.pathname === "/" && navigate("/chat-box");
+        window.location.pathname === "/" && navigate("/chat-box");
       } else {
         const lsPublicUserId = sessionStorage.getItem("userId");
         const lsDelphiUserExist = JSON.parse(
@@ -59,6 +57,8 @@ function App() {
             navigate("/chat-box-public");
           }
         } else {
+          if (window.location.pathname.includes("verification")) return;
+
           lsDelphiUserExist
             ? navigate("/auth/login")
             : !window.location.pathname.includes("auth") &&
