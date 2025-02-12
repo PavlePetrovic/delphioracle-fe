@@ -3,6 +3,34 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 // ** Axios Imports
 import { http } from "@common/api/http";
 import { RootState } from "@redux/store";
+import { chatDataType } from "@appTypes/universal";
+
+export const getProfileData = createAsyncThunk<
+  any,
+  { user_id: string },
+  { state: RootState }
+>("auth/getProfileData", async ({ user_id }) => {
+  try {
+    const response: any = await http.post(
+      `${import.meta.env.VITE_API_BASELINK}/get-user-data`,
+      {
+        user_id: user_id,
+      },
+    );
+
+    const responseObj: chatDataType = response.data?.body?.user_data;
+
+    return {
+      report: {
+        sun: responseObj?.account_info?.report?.profile_stats?.sun,
+        ascendant: responseObj?.account_info?.report?.profile_stats?.ascendant,
+        moon: responseObj?.account_info?.report?.profile_stats?.moon,
+      },
+    };
+  } catch (err: any) {
+    return err.response.data;
+  }
+});
 
 export const changeReferral = createAsyncThunk<
   any,

@@ -8,14 +8,16 @@ import AddIco from "../../../assets/icons/add-ico.svg";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import ZodiacSymbol from "../ZodiacSymbol/ZodiacSymbol";
-import CreatePortal from "../CreatePortal/CreatePortal";
-import Modal from "../Modal/Modal";
 import CreditsModal from "../CreditsModal/CreditsModal";
+import Spinner from "../Spinner/Spinner";
 
 const NavbarLinks = () => {
   const authData = useAppSelector((state) => state.authentication.authData);
+  const credits = useAppSelector(
+    (state) => state.authentication.internalAuthData.value?.credits,
+  );
   const userData = useAppSelector(
-    (state) => state.chat.chatData.value?.account_info,
+    (state) => state.authentication.internalAuthData.value?.account_info,
   );
 
   const [creditsModal, setCreditsModal] = useState(false);
@@ -61,7 +63,7 @@ const NavbarLinks = () => {
 
   return (
     <>
-      <div className="w888:hidden flex items-center justify-center gap-2.5">
+      <div className="flex items-center justify-center gap-2.5 w888:hidden">
         {navLinks.map((navLink, index) => {
           return (
             !navLink.hide && (
@@ -111,8 +113,8 @@ const NavbarLinks = () => {
             )
           );
         })}
-        {!authData && !window.location.pathname.includes("chat-box") ? (
-          <div className="bg-transparent-gray bg-glass h-[20px] w-[2px] rounded-full"></div>
+        {!authData && window.location.pathname.includes("chat-box") ? (
+          <div className="h-[20px] w-[2px] rounded-full bg-main-grey"></div>
         ) : (
           <></>
         )}
@@ -120,20 +122,20 @@ const NavbarLinks = () => {
           <></>
         ) : (
           <div
-            className={`bg-transparent-gray bg-glass flex items-center gap-1 rounded-full px-1 py-[3px] ${
+            className={`flex items-center gap-1 rounded-full bg-main-grey px-1 py-[3px] ${
               !authData ? "mr-2.5" : ""
             }`}
             onClick={() => authData && setCreditsModal(true)}
           >
             <button
-              className={`text-gold flex items-center justify-center gap-1 rounded-full bg-[#E0EFFF1F] px-3 py-[1px] font-light`}
+              className={`flex items-center justify-center gap-1 rounded-full bg-[#E0EFFF1F] px-3 py-[1px] font-light text-gold`}
               onClick={() => null}
             >
-              <CreditsIco className="[&_path]:fill-gold h-auto w-[13px]" />
-              {userData?.credits && (
-                <span className="text-gold">{`${
-                  userData?.credits ? userData?.credits : 0
-                }`}</span>
+              <CreditsIco className="h-auto w-[13px] [&_path]:fill-gold" />
+              {credits || credits === 0 ? (
+                <span className="text-gold">{credits}</span>
+              ) : (
+                <Spinner classList="w-[14px] h-[14px] my-1" />
               )}
             </button>
             {authData && (
@@ -141,7 +143,7 @@ const NavbarLinks = () => {
                 className={`flex items-center justify-center rounded-full bg-[#E0EFFF1F] p-[5px] font-light`}
                 onClick={() => {}}
               >
-                <AddIco className="[&_path]:fill-gold h-auto w-[16px]" />
+                <AddIco className="h-auto w-[16px] [&_path]:fill-gold" />
               </button>
             )}
           </div>
@@ -152,20 +154,20 @@ const NavbarLinks = () => {
         <></>
       ) : (
         <div
-          className={`bg-transparent-gray bg-glass hidden items-center gap-1 rounded-full py-0.5 ${
+          className={`hidden items-center gap-1 rounded-full bg-main-grey py-0.5 ${
             !authData ? "mr-1.5" : ""
-          } w888:flex px-1 `}
+          } px-1 w888:flex `}
           onClick={() => authData && setCreditsModal(true)}
         >
           <button
-            className={`text-gold flex items-center justify-center gap-1 rounded-full bg-[#E0EFFF1F] py-[3px] pr-2.5 pl-2 text-sm font-light`}
+            className={`flex items-center justify-center gap-1 rounded-full bg-[#E0EFFF1F] py-[3px] pl-2 pr-2.5 text-sm font-light text-gold`}
             onClick={() => null}
           >
-            <CreditsIco className="[&_path]:fill-gold h-auto w-[14px]" />
-            {userData?.credits && (
-              <span className="text-gold text-xs">{`${
-                userData?.credits ? userData?.credits : 0
-              }`}</span>
+            <CreditsIco className="h-auto w-[14px] [&_path]:fill-gold" />
+            {credits || credits === 0 ? (
+              <span className="text-xs text-gold">{credits}</span>
+            ) : (
+              <Spinner classList="w-[14px] h-[14px] my-1" />
             )}
           </button>
           {authData && (
@@ -173,7 +175,7 @@ const NavbarLinks = () => {
               className={`flex items-center justify-center rounded-full bg-[#E0EFFF1F] p-[5px] font-light`}
               onClick={() => {}}
             >
-              <AddIco className="[&_path]:fill-gold h-auto w-[16px]" />
+              <AddIco className="h-auto w-[16px] [&_path]:fill-gold" />
             </button>
           )}
         </div>

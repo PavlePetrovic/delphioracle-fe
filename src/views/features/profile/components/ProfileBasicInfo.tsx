@@ -2,15 +2,23 @@ import ZodiacSymbol from "@components/ZodiacSymbol/ZodiacSymbol";
 import { useAppSelector } from "@redux/reduxTypes";
 import {
   formatDate,
-  getTime,
   formatTime,
   resolveKnowledgeLevel,
 } from "@common/utility/Utils";
+import LoadingPage from "@/views/components/LoadingPage/LoadingPage";
 
 const ProfileBasicInfo = () => {
-  const authData = useAppSelector((state) => state.authentication.authData);
-  const userData = useAppSelector(
-    (state) => state.chat.chatData.value?.account_info,
+  const internalAuthData = useAppSelector(
+    (state) => state.authentication.internalAuthData.value,
+  );
+  const internalAuthDataLoading = useAppSelector(
+    (state) => state.authentication.internalAuthData.loading,
+  );
+  const userInfo = useAppSelector(
+    (state) => state.authentication.internalAuthData.value?.user_info,
+  );
+  const report = useAppSelector(
+    (state) => state.profile.profileData.value?.report,
   );
 
   const getDateOfBirth = (year?: number, month?: number, day?: number) => {
@@ -34,91 +42,88 @@ const ProfileBasicInfo = () => {
     return new Date();
   };
 
-  const knowledgeLevel = userData?.user_info?.knowledge_level
-    ? resolveKnowledgeLevel(userData?.user_info?.knowledge_level)
+  const knowledgeLevel = userInfo?.knowledge_level
+    ? resolveKnowledgeLevel(userInfo?.knowledge_level)
     : "Not Provided";
 
-  return (
-    <div className="bg-glass flex flex-col gap-1.5 rounded-xl bg-transparent-gray px-3.5 py-3.5">
+  return internalAuthDataLoading ? (
+    <div className="flex h-[353px] animate-pulse flex-col gap-1.5 rounded-xl bg-main-grey px-3.5 py-3.5 w888:h-[332px]">
+      <LoadingPage />
+    </div>
+  ) : (
+    // <Spinner classList="w-[30px] h-[30px]" />
+    <div className="flex flex-col gap-1.5 rounded-xl bg-main-grey px-3.5 py-3.5">
       <div className="mb-2 flex flex-col items-start gap-0.5">
         <h2 className="font-prata text-[25px] tracking-wide text-white w888:text-[23px]">
-          {userData?.user_info?.name}
+          {userInfo?.name}
         </h2>
         <div className="flex items-center gap-3.5">
           <div className="flex items-center gap-1">
             <ZodiacSymbol
-              zodiac={`${userData?.report?.profile_stats?.sun}`}
+              zodiac={`${report?.sun}`}
+              className="h-auto w-[18px] opacity-70"
+            />
+            <p className="text-sm font-extralight text-white">{report?.sun}</p>
+          </div>
+          <div className="flex items-center gap-1">
+            <ZodiacSymbol
+              zodiac={`${report?.ascendant}`}
               className="h-auto w-[18px] opacity-70"
             />
             <p className="text-sm font-extralight text-white">
-              {userData?.report?.profile_stats?.sun}
+              {report?.ascendant}
             </p>
           </div>
           <div className="flex items-center gap-1">
             <ZodiacSymbol
-              zodiac={`${userData?.report?.profile_stats?.ascendant}`}
+              zodiac={`${report?.moon}`}
               className="h-auto w-[18px] opacity-70"
             />
-            <p className="text-sm font-extralight text-white">
-              {userData?.report?.profile_stats?.ascendant}
-            </p>
-          </div>
-          <div className="flex items-center gap-1">
-            <ZodiacSymbol
-              zodiac={`${userData?.report?.profile_stats?.moon}`}
-              className="h-auto w-[18px] opacity-70"
-            />
-            <p className="text-sm font-extralight text-white">
-              {userData?.report?.profile_stats?.moon}
-            </p>
+            <p className="text-sm font-extralight text-white">{report?.moon}</p>
           </div>
         </div>
       </div>
       <div className="flex flex-col">
         <p className="text-[13px] font-extralight text-dimmed-text-gray w888:text-sm">
-          Date of birth
+          Date of Birth
         </p>
         <p className="-mt-0.5 text-lg font-light text-white w888:text-base">
           {formatDate(
-            `${getDateOfBirth(
-              userData?.user_info?.year,
-              userData?.user_info?.month,
-              userData?.user_info?.day,
-            )}`,
+            `${getDateOfBirth(userInfo?.year, userInfo?.month, userInfo?.day)}`,
           )}
         </p>
       </div>
       <div className="flex flex-col">
         <p className="text-[13px] font-extralight text-dimmed-text-gray w888:text-sm">
-          Time of birth
+          Time of Birth
         </p>
         <p className="-mt-0.5 text-lg font-light text-white w888:text-base">
           {formatTime(
             getTimeOfBirth(
-              userData?.user_info?.year,
-              userData?.user_info?.month,
-              userData?.user_info?.day,
-              userData?.user_info?.hour,
-              userData?.user_info?.minute,
+              userInfo?.year,
+              userInfo?.month,
+              userInfo?.day,
+              userInfo?.hour,
+              userInfo?.minute,
             ),
           )}
         </p>
       </div>
       <div className="flex flex-col">
         <p className="text-[13px] font-extralight text-dimmed-text-gray w888:text-sm">
-          Birth location
+          Place of Birth
         </p>
-        <p className="-mt-0.5 text-lg font-light text-white w888:text-base">{`${userData?.user_info?.city}`}</p>
+        <p className="-mt-0.5 text-lg font-light text-white w888:text-base">{`${userInfo?.city}`}</p>
       </div>
       <div className="flex flex-col">
         <p className="text-[13px] font-extralight text-dimmed-text-gray w888:text-sm">
           Email Address
         </p>
-        <p className="-mt-0.5 text-lg font-light text-white w888:text-base">{`${authData?.email}`}</p>
+        <p className="-mt-0.5 text-lg font-light text-white w888:text-base">{`${internalAuthData?.email}`}</p>
       </div>
       <div className="flex flex-col">
         <p className="text-[13px] font-extralight text-dimmed-text-gray w888:text-sm">
-          Knowledge Level
+          Your Oracle Style
         </p>
         <p className="-mt-0.5 text-lg font-light text-white w888:text-base">
           {knowledgeLevel}

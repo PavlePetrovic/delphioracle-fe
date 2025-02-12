@@ -1,23 +1,31 @@
-import AskIco from "../../../assets/icons/ask-ico.svg";
-import ChatIco from "../../../assets/icons/chat-ico.svg";
-import SynastryChatIco from "../../../assets/icons/synastry-chat-ico.svg";
+import AskIco from "@assets/icons/ask-ico.svg";
+import ChatIco from "@assets/icons/chat-ico.svg";
+import SynastryChatIco from "@assets/icons/synastry-chat-ico.svg";
+import { useAppSelector } from "@redux/reduxTypes";
 import Button from "../Button/Button";
-import { useAppSelector } from "../../../redux/reduxTypes";
-import ZodiacSymbol from "../ZodiacSymbol/ZodiacSymbol";
+import { CgProfile } from "react-icons/cg";
 import { NavLink } from "react-router-dom";
+import { IoMenu } from "react-icons/io5";
+import { useRef, useState } from "react";
+import { useOutsideClickHandler } from "@common/hooks/useOutsideClickHandler";
+import { IoArrowForwardOutline } from "react-icons/io5";
+import CreatePortal from "../CreatePortal/CreatePortal";
+import BoxModal from "../BoxModal/BoxModal";
 
 const MobileMainFooter = () => {
-  const userData = useAppSelector(
-    (state) => state.chat.chatData.value?.account_info,
-  );
+  const menuRef = useRef<HTMLDivElement>(null);
   const authData = useAppSelector((state) => state.authentication.authData);
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useOutsideClickHandler(menuRef, () => setIsMenuOpen(false));
 
   const navLinks: Array<{
     text: string;
     end?: boolean;
     route: string;
     hide?: boolean;
-    Icon?: React.FunctionComponent<
+    Icon: React.FunctionComponent<
       React.SVGProps<SVGSVGElement> & {
         title?: string | undefined;
       }
@@ -29,15 +37,18 @@ const MobileMainFooter = () => {
       end: true,
       route: !authData ? "/chat-box-questions-public" : "/chat-box-questions",
       Icon: AskIco,
+      hide: !authData && !window.location.pathname.includes("chat-box"),
     },
     {
       text: "Chat",
       route: !authData ? "/chat-box-public" : "/chat-box",
       Icon: ChatIco,
+      hide: !authData && !window.location.pathname.includes("chat-box"),
     },
     {
       text: "Profile",
       route: "/profile",
+      Icon: CgProfile,
       hide: !authData,
     },
     {
@@ -49,8 +60,93 @@ const MobileMainFooter = () => {
     },
   ];
 
+  const legalNavLinks: Array<{
+    text: string;
+    end?: boolean;
+    route: string;
+  }> = [
+    {
+      text: "How It Works",
+      route: "/how-it-works",
+    },
+    {
+      text: "Who Are We",
+      route: "/who-are-we",
+    },
+    {
+      text: "FAQ",
+      route: "/faq",
+    },
+    {
+      text: "Reflections",
+      route: "/community-reflections",
+    },
+    {
+      text: "Privacy",
+      end: true,
+      route: "/privacy-policy",
+    },
+    {
+      text: "Terms",
+      route: "/terms-of-use",
+    },
+  ];
+
   return (
-    <div className="bg-transparent-gray bg-glass mb-[7px] flex w-full items-center justify-center gap-5 rounded-xl py-1.5">
+    <div className="bg-main-gray mb-[7px] flex w-full items-center justify-center gap-5 rounded-xl py-1.5">
+      <div className="relative" onClick={(e) => e.stopPropagation()}>
+        {isMenuOpen && (
+          <CreatePortal>
+            <BoxModal>
+              <div
+                ref={menuRef}
+                className="slide-in-bottom absolute bottom-0 left-0 h-full w-full px-7 py-[42px]"
+              >
+                <div className="mx-auto flex h-full w-full flex-col items-center justify-between rounded-xl border-[0.5px] border-main-grey bg-dark-blue py-5">
+                  <h3 className="font-philosopher text-2xl text-white">Menu</h3>
+                  <div className="flex flex-col items-center gap-1.5">
+                    {legalNavLinks.map((navLink, index) => {
+                      return (
+                        <NavLink
+                          key={index}
+                          to={navLink.route}
+                          end={navLink.end ? true : false}
+                          className={``}
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          {({ isActive }) => (
+                            <div
+                              className={`flex min-w-full items-center gap-1.5 whitespace-nowrap py-1 text-sm font-light ${
+                                isActive ? "text-gold" : "text-white"
+                              }`}
+                            >
+                              {navLink.text}{" "}
+                              <IoArrowForwardOutline className="mt-[1px] text-[13px]" />
+                            </div>
+                          )}
+                        </NavLink>
+                      );
+                    })}
+                  </div>
+                  <Button
+                    text="Close"
+                    onClick={() => setIsMenuOpen(false)}
+                    type="main"
+                    className="mt-5 w-1/3 w888:w-1/2"
+                  />
+                </div>
+              </div>
+            </BoxModal>
+          </CreatePortal>
+        )}
+        <Button
+          type="border"
+          onClick={() => setIsMenuOpen((prevState) => !prevState)}
+          text={""}
+          CustomIco={<IoMenu className="h-[22px] w-[22px]" />}
+          className="flex-row-reverse border border-[#ffffff4e] bg-[#0D101A] !p-[7px]"
+        />
+      </div>
       {navLinks.map((navLink, index) => {
         return (
           !navLink.hide && (
@@ -64,24 +160,13 @@ const MobileMainFooter = () => {
                   type="border"
                   text={""}
                   CustomIco={
-                    navLink.Icon ? (
-                      <navLink.Icon
-                        className={`h-[22px] w-[22px] ${
-                          isActive || navLink.isLinkActive
-                            ? "[&_path]:stroke-gold"
-                            : ""
-                        }`}
-                      />
-                    ) : (
-                      <ZodiacSymbol
-                        zodiac={`${userData?.report?.profile_stats?.sun}`}
-                        className={`h-auto w-[20px] ${
-                          isActive || navLink.isLinkActive
-                            ? "[&_path]:fill-gold"
-                            : ""
-                        }`}
-                      />
-                    )
+                    <navLink.Icon
+                      className={`h-[22px] w-[22px] ${
+                        isActive || navLink.isLinkActive
+                          ? "[&_path]:stroke-gold"
+                          : ""
+                      }`}
+                    />
                   }
                   className="flex-row-reverse border border-[#ffffff4e] bg-[#0D101A] !p-[7px]"
                   customStyle={

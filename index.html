@@ -3,8 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/delphi.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <title>Delphi Oracle</title>
+
+    <!-- Google tag (gtag.js) -->
+    <!-- Dev Analytics Key: G-9LCYMCEB7N" -->
+    <!-- ENABLE THIS FOR PRODUCTION -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-9LCYMCEB7N"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-9LCYMCEB7N");
+    </script>
   </head>
   <body>
     <div id="modal"></div>

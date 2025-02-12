@@ -17,6 +17,9 @@ module.exports = {
       h600: {
         raw: "(max-height: 600px)",
       },
+      h710: {
+        raw: "(max-height: 710px)",
+      },
       h900: {
         raw: "(max-height: 900px)",
       },
@@ -30,6 +33,7 @@ module.exports = {
     extend: {
       colors: {
         gold: "#EBD9AD",
+        "main-grey": "#3d4653df",
         "transparent-gray": "#E0EFFF14",
         "dimmed-text-gray": " #E0EFFFA3",
         "dark-dimmed-blue": "#0D101AB8",

@@ -3,7 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 // ** Axios Imports
 import { http } from "@common/api/http";
 import { RootState } from "../../../../redux/store";
-import { userInfoType } from "@features/chatBox/chatBoxTypes";
+import { userInfoType } from "@appTypes/universal";
 
 export const initiateSynastryConversation = createAsyncThunk<
   any,
@@ -19,7 +19,7 @@ export const initiateSynastryConversation = createAsyncThunk<
       const response: any = await http.post(
         `${import.meta.env.VITE_API_BASELINK}/initiate-conversation-to-sqs`,
         {
-          other_person_info,
+          other_person_info: other_person_info,
           user_id: userId,
         },
       );
@@ -66,7 +66,7 @@ export const getSynastryData = createAsyncThunk<
   any,
   { threadId?: string; userId: string },
   { state: RootState }
->("chatBox/getSynastryData", async ({ threadId, userId }, { getState }) => {
+>("chatBox/getSynastryData", async ({ threadId, userId }) => {
   try {
     const response: any = await http.post(
       `${import.meta.env.VITE_API_BASELINK}/get-synastry-data`,

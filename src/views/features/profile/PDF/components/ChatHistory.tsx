@@ -1,5 +1,5 @@
 import { View, Text, Image } from "@react-pdf/renderer";
-import { messageType } from "@features/chatBox/chatBoxTypes";
+import { messageType } from "@appTypes/universal";
 import delphiLogo from "@assets/icons/delphi-logo-horizontal-text.png";
 import { markdownToText } from "@/common/utility/Utils";
 

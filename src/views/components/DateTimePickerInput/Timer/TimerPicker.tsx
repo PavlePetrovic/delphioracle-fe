@@ -7,6 +7,7 @@ import { isStringEmpty } from "@common/utility/Utils";
 
 type propsTypes = {
   valueExist: timerPickerValue;
+  autoOpen?: boolean;
   onChange: (e: timerPickerValue) => void;
 };
 
@@ -23,7 +24,7 @@ const initialState: timerPickerValue = {
   minutes: "",
 };
 
-const TimerPicker = ({ valueExist, onChange }: propsTypes) => {
+const TimerPicker = ({ valueExist, autoOpen, onChange }: propsTypes) => {
   const [isOpen, setIsOpen] = useState(false);
   const [value, setValue] = useState<timerPickerValue>(initialState);
 
@@ -43,6 +44,10 @@ const TimerPicker = ({ valueExist, onChange }: propsTypes) => {
   }, [value]);
 
   useEffect(() => {
+    autoOpen && setIsOpen(true);
+  }, [autoOpen]);
+
+  useEffect(() => {
     valueExist && setValue(valueExist);
   }, []);
 
@@ -53,7 +58,7 @@ const TimerPicker = ({ valueExist, onChange }: propsTypes) => {
     <>
       {/* TIMER INPUT PREVIEW */}
       <div
-        className="bg-glass flex cursor-pointer items-center justify-center rounded-[16px] bg-[#e0efff19] p-1.5"
+        className="flex cursor-pointer items-center justify-center rounded-[16px] bg-main-grey p-1.5"
         onClick={() => setIsOpen(true)}
       >
         <div
@@ -91,7 +96,7 @@ const TimerPicker = ({ valueExist, onChange }: propsTypes) => {
           close={() => {
             setIsOpen(false);
           }}
-          modalClassName="!w-[400px] w888:!w-[320px] !h-fit"
+          modalClassName="!w-[400px] w888:!w-[320px] !h-[333px]"
           hideModalHeader
           hideModalFooter
         >
@@ -101,7 +106,7 @@ const TimerPicker = ({ valueExist, onChange }: propsTypes) => {
           <div className="flex h-[207px] items-start justify-start gap-2">
             <div className="h-full w-1/2 rounded-lg border border-[#e0efff1f] p-1">
               <div
-                className={`flex h-full w-full flex-col items-center justify-start gap-0.5 bg-dark-blue pl-3.5 ${
+                className={`flex h-full w-full flex-col items-center justify-start gap-0.5 bg-dark-blue px-2 ${
                   isStringEmpty(value?.hours) ? "animate-pulse" : ""
                 } ${scrollClasses}`}
               >
@@ -109,7 +114,9 @@ const TimerPicker = ({ valueExist, onChange }: propsTypes) => {
                   <p
                     key={h}
                     className={`w-full cursor-pointer text-center ${
-                      value?.hours === h ? "text-gold" : "text-white"
+                      value?.hours === h
+                        ? "border-[0.5px] border-gold text-gold"
+                        : "text-white"
                     } rounded-xl pb-2 pt-1.5 text-base font-light tracking-wide transition-all hover:bg-[#e0efff1f]`}
                     onClick={() => handleSetValue(h, "hours")}
                   >
@@ -120,7 +127,7 @@ const TimerPicker = ({ valueExist, onChange }: propsTypes) => {
             </div>
             <div className="h-full w-1/2 rounded-lg border border-[#e0efff1f] p-1">
               <div
-                className={`flex h-full w-full flex-col items-center justify-start gap-0.5 bg-dark-blue pl-3.5 ${
+                className={`flex h-full w-full flex-col items-center justify-start gap-0.5 bg-dark-blue px-2 ${
                   isStringEmpty(value?.minutes) ? "animate-pulse" : ""
                 } ${scrollClasses}`}
               >
@@ -128,7 +135,9 @@ const TimerPicker = ({ valueExist, onChange }: propsTypes) => {
                   <p
                     key={m}
                     className={`w-full cursor-pointer text-center ${
-                      value?.minutes === m ? "text-gold" : "text-white"
+                      value?.minutes === m
+                        ? "border-[0.5px] border-gold text-gold"
+                        : "text-white"
                     } rounded-xl px-3 pb-2 pt-1.5 text-base font-light tracking-wide transition-all hover:bg-[#e0efff1f]`}
                     onClick={() => handleSetValue(m, "minutes")}
                   >

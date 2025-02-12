@@ -1,14 +1,18 @@
 // ** Redux Imports
 import { createSlice } from "@reduxjs/toolkit";
 import { getSynastryData } from "./synastry.actions";
+import { synastryChatThreadType, synastryListType } from "../types";
 
 interface synastryStateType {
-  list: any;
+  list: synastryListType | null;
   chat: {
-    value: any;
+    value: {
+      thread: synastryChatThreadType;
+      adding_partner_processing_flag: boolean;
+    } | null;
     loading: boolean;
-    error: any;
     initialSynastryChatFetch: boolean;
+    error: any;
   };
   promptedMessage: {
     value: string;
@@ -34,6 +38,12 @@ export const synastrySlice = createSlice({
   name: "synastry",
   initialState,
   reducers: {
+    setSynastryChatData(state, { payload }) {
+      state.chat.value = {
+        thread: payload,
+        adding_partner_processing_flag: false,
+      };
+    },
     clearSynastryChatData(state) {
       state.chat.value = null;
     },
@@ -70,6 +80,7 @@ export const synastrySlice = createSlice({
 });
 
 export const {
+  setSynastryChatData,
   clearSynastryChatData,
   setSynastryPromptedMessage,
   clearSynastryPromptedMessage,

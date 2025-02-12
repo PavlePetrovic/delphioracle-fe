@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import posterImg from "@assets/images/astro-chart.png";
 
 // Props for VideoSlider
 interface VideoSliderProps {
-  videoPaths: string[]; // Array of video paths
+  videoPaths: Array<{ path: string; poster: string }>; // Array of video paths
 }
 
 const VideoSlider: React.FC<VideoSliderProps> = ({ videoPaths }) => {
@@ -23,6 +22,12 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoPaths }) => {
       {
         breakpoint: 768,
         settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 473,
+        settings: {
           slidesToShow: 1,
         },
       },
@@ -32,13 +37,13 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoPaths }) => {
   return (
     <div className="video-slider-container mx-auto mt-6 w-full max-w-3xl">
       <Slider {...settings}>
-        {videoPaths.map((path, index) => (
+        {videoPaths.map((video, index) => (
           <div key={index} className="flex justify-center px-4">
             <video
-              className="h-auto w-auto rounded-lg"
+              className="mx-auto h-auto w-auto rounded-lg w480:max-h-[400px]"
               controls
               preload="metadata"
-              // poster={posterImg}
+              poster={video.poster}
               onPlay={() => setActiveVideoIndex(index)} // Set active video on play
               onEnded={() => setActiveVideoIndex(null)} // Clear active video on end
               ref={(videoElement) => {
@@ -47,7 +52,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoPaths }) => {
                 }
               }}
             >
-              <source src={path} type="video/mp4" />
+              <source src={video.path} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>

@@ -21,9 +21,9 @@ type propsTypes = {
 };
 const SingleSelect = (props: propsTypes) => {
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex w-full flex-col">
       {props.label && (
-        <p className="text-white text-sm font-light mb-1.5 select-none">
+        <p className="mb-1.5 select-none text-sm font-light text-white">
           {props.label}
         </p>
       )}
@@ -50,33 +50,14 @@ const SingleSelect = (props: propsTypes) => {
             neutral80: "white", // Selected Value Color
           },
         })}
-        //   formatOptionLabel={
-        //     props.formatOptionLabel ? props.formatOptionLabel : null
-        //   }
         menuPortalTarget={document.body}
         styles={{
           control: (baseStyles, state) => ({
             ...baseStyles,
             borderRadius: 22,
             border: "none",
-            // props.graySelectOption
-            //   ? "#F1F1F1"
-            //   : state.menuIsOpen
-            //   ? "#477D53"
-            //   : props.invalid
-            //   ? "#CD4C4C"
-            //   : "#1A1A1A",
             "&:hover": "transparent",
             backgroundColor: "#0D101AB8",
-            // props.graySelectOption
-            //   ? "#F1F1F1"
-            //   : state.menuIsOpen
-            //   ? "initial"
-            //   : props.invalid
-            //   ? "#CD4C4C1A"
-            //   : props.disabled
-            //   ? "#F2F2F2"
-            //   : "initial",
             boxShadow: "none",
             height: 40,
           }),
@@ -98,10 +79,6 @@ const SingleSelect = (props: propsTypes) => {
             cursor: "pointer",
             backgroundColor: state.isFocused ? "#0d101a" : "transparent",
             color: state.isFocused ? "#d5d5d5" : "#0d101a",
-            // ":active": {
-            //   ...baseStyles[":active"],
-            //   color: "#EE4B2B",
-            // },
           }),
           indicatorSeparator: (baseStyles) => ({
             ...baseStyles,
@@ -123,7 +100,7 @@ const SingleSelect = (props: propsTypes) => {
         }}
       />
       {props.invalid && props.invalidMessage && (
-        <p className="text-red-300 text-sm font-light mt-1.5">
+        <p className="mt-1.5 text-sm font-light text-red-300">
           {props.invalidMessage}
         </p>
       )}

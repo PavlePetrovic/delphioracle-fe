@@ -13,7 +13,9 @@ type calendarPickerValue = {
 
 type propsTypes = {
   valueExist?: calendarPickerValue;
+  placeholder?: string;
   onChange: (value: calendarPickerValue) => void;
+  handleExternalEvents?: () => void;
 };
 
 const initialCalendarPickerValue = {
@@ -39,7 +41,12 @@ let monthsArray = [
   "December",
 ];
 
-const CalendarPicker = ({ valueExist, onChange }: propsTypes) => {
+const CalendarPicker = ({
+  valueExist,
+  placeholder,
+  onChange,
+  handleExternalEvents,
+}: propsTypes) => {
   const [isOpen, setIsOpen] = useState(false);
   const [view, setView] = useState<calendarNvaigationType>("decade");
   const [internalCalendarValue, setInternalCalendarValue] = useState<Value>(
@@ -57,6 +64,7 @@ const CalendarPicker = ({ valueExist, onChange }: propsTypes) => {
       setView(view);
     } else {
       setIsOpen(false);
+      handleExternalEvents && handleExternalEvents();
     }
   };
 
@@ -88,7 +96,7 @@ const CalendarPicker = ({ valueExist, onChange }: propsTypes) => {
   return (
     <>
       {/* CALENDAR INPUT PREVIEW */}
-      <div className="bg-glass flex cursor-pointer items-center justify-center gap-1.5 rounded-[16px] bg-[#e0efff19] p-1.5">
+      <div className="flex cursor-pointer items-center justify-center gap-1.5 rounded-[16px] bg-main-grey p-1.5">
         <div
           className={`animate-pulse rounded-xl bg-[#e0efff1f] px-8 py-2 text-base font-light text-white w888:text-sm ${
             doesInputHaveContent ? "hidden" : ""
@@ -97,7 +105,7 @@ const CalendarPicker = ({ valueExist, onChange }: propsTypes) => {
             setIsOpen(true);
           }}
         >
-          Pick a birth date
+          {placeholder ? placeholder : "Pick a birth date"}
         </div>
         {/* Month Box */}
         <div

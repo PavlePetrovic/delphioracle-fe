@@ -1,7 +1,7 @@
 import RomanceCategory from "@assets/icons/romance-category-ico.svg";
 import FriendshipCategory from "@assets/icons/friendship-category-ico.svg";
 import BusinessCategory from "@assets/icons/business-category-ico.svg";
-import { questionsCategoriesType } from "@features/chatBox/chatBoxTypes";
+import { questionsCategoriesType } from "@/views/features/chat/types";
 
 type propsTypes = {
   onClick: (category: questionsCategoriesType) => void;
@@ -39,8 +39,8 @@ const SynastryQuestionsPills = ({ onClick }: propsTypes) => {
             className="group flex cursor-pointer items-center justify-center gap-[7px] rounded-xl bg-[#e0efff11] px-2.5 py-[3px]"
             onClick={() => onClick && onClick(pill.category)}
           >
-            <pill.Icon className="group-hover:[&_path]:fill-gold h-auto w-[13px]" />
-            <p className="group-hover:text-gold text-xs font-extralight text-white">
+            <pill.Icon className="h-auto w-[13px] group-hover:[&_path]:fill-gold" />
+            <p className="text-xs font-extralight text-white group-hover:text-gold">
               {pill.category}
             </p>
           </div>

@@ -13,31 +13,31 @@ const AppFramelessLayout = ({ children }: appLayoutType) => {
   const isMobile = useAppSelector((state) => state.global.isMobile);
 
   return (
-    <div className="bg-wallpaper fade-in-animation starry-background h-svh w-full overflow-y-hidden bg-cover bg-no-repeat object-cover">
-      <MainNavbar />
-
+    <div className="h-svh w-full overflow-y-hidden bg-wallpaper bg-cover bg-no-repeat object-cover">
       <Galaxy>
-        <div className="w888:px-2 w888:pt-[45px] w888:pb-[63px] fixed top-0 left-0 z-10 flex h-full w-full flex-col items-center justify-center bg-transparent px-5 pt-[57px] pb-[49px]">
+        <MainNavbar />
+
+        <div className="fixed left-0 top-0 z-10 flex h-full w-full flex-col items-center justify-center bg-transparent px-5 pb-[49px] pt-[57px] w888:px-2 w888:pb-[63px] w888:pt-[45px]">
           <div
-            className={`fade-in-message-animation w888:p-1 w888:my-0 relative z-50 m-[18px] flex h-full min-h-full max-w-[1440px] flex-col items-center rounded-xl bg-transparent p-5`}
+            className={`relative z-50 m-[18px] flex h-full min-h-full w-full max-w-[1440px] flex-col items-center rounded-xl bg-transparent p-5 w888:my-0 w888:p-1`}
           >
             {children}
           </div>
         </div>
+
+        {!isMobile && (
+          <div className="spin-animation fixed -bottom-[365px] -right-[365px] rounded-full opacity-55">
+            <img
+              src={astroChart}
+              alt="astro-chart"
+              className="h-auto w-[1000px] w1024:w-[900px]"
+            />
+          </div>
+        )}
+
+        <div id="modal-box"></div>
+        <MainFooter isMobile={isMobile} />
       </Galaxy>
-
-      {!isMobile && (
-        <div className="spin-animation fixed -right-[365px] -bottom-[365px] rounded-full opacity-55">
-          <img
-            src={astroChart}
-            alt="astro-chart"
-            className="w1024:w-[900px] h-auto w-[1000px]"
-          />
-        </div>
-      )}
-
-      <div id="modal-box"></div>
-      <MainFooter isMobile={isMobile} />
     </div>
   );
 };

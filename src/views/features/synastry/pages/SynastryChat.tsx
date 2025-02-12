@@ -7,43 +7,39 @@ import React, {
 } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../redux/reduxTypes";
 import { useParams } from "react-router";
-import {
-  messageType,
-  questionsCategoriesType,
-} from "@features/chatBox/chatBoxTypes";
+import { messageType } from "@appTypes/universal";
+import { questionsCategoriesType } from "@/views/features/chat/types";
 import {
   askSynastryQuestion,
   getSynastryData,
 } from "../reducer/synastry.actions";
-import { getRandomInt, isObjEmpty } from "@common/utility/Utils";
+import { isObjEmpty } from "@common/utility/Utils";
 import ScrollWrapper from "@components/ScrollWrapper/ScrollWrapper";
-import delphiLogo from "@assets/icons/delphi-logo.png";
-import { coolPunchLines } from "@features/chatBox/chatData";
 import TextInput from "@components/TextInput/TextInput";
 import CreditsIco from "@assets/icons/credits-ico.svg";
 import { SlArrowRight } from "react-icons/sl";
 import {
+  clearSynastryChatData,
   clearSynastryPromptedMessage,
   setSynastryCentralizedLoading,
+  setSynastryChatData,
   setSynastryChatInitialFetch,
 } from "../reducer/synastry.reducer";
 import SynastryChatNavbar from "../components/SynastryChatNavbar";
 import CreatePortal from "@components/CreatePortal/CreatePortal";
 import Modal from "@components/Modal/Modal";
-import ChatBoxQuestions from "@features/chatBox/pages/ChatBoxQuestions";
+import ChatBoxQuestions from "@/views/features/chat/pages/ChatBoxQuestions";
 import SynastryQuestionsPills from "../components/SynastryQuestionsPills";
 import MarkdownPreview from "@uiw/react-markdown-preview";
-import {
-  decrementCredits,
-  updateCredits,
-} from "@features/chatBox/reducer/chatBox.reducer";
 import PDFButton from "@features/profile/components/PDFButton";
+import { decrementCredits } from "@features/auth/reducer/authentication.reducer";
 
 const SynastryChat = () => {
   const dispatch = useAppDispatch();
   const scrollRef = useRef<HTMLSpanElement>(null);
   const key = useParams();
 
+  const [isFirstInitialFetchOver, setIsFirstInitialFetchOver] = useState(false);
   const [messages, setMessages] = useState<Array<messageType>>([]);
   const [newMessage, setNewMessage] = useState<string>("");
   const [questionsModal, setQuestionsModal] = useState<{
@@ -55,6 +51,9 @@ const SynastryChat = () => {
   });
 
   const authData = useAppSelector((state) => state.authentication.authData);
+  const internalAuthData = useAppSelector(
+    (state) => state.authentication.internalAuthData.value,
+  );
   const synastryList = useAppSelector((state) => state.synastry.list);
   const chatData = useAppSelector((state) => state.synastry.chat);
   const promptedMessage = useAppSelector(
@@ -62,7 +61,7 @@ const SynastryChat = () => {
   );
   const loading = useAppSelector((state) => state.synastry.centralizedLoading);
 
-  const sendQuestion = (messageContent: string, credits: number) => {
+  const sendQuestion = (messageContent: string) => {
     if (messageContent) {
       setMessages((prevMessages) => {
         return [
@@ -90,6 +89,7 @@ const SynastryChat = () => {
       );
       setNewMessage("");
       alignChatView();
+      console.log("SynastryChat.tsx -> getSynastryData 1 CHAT");
       setTimeout(() => {
         dispatch(
           getSynastryData({
@@ -103,7 +103,7 @@ const SynastryChat = () => {
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    sendQuestion(newMessage, 1);
+    sendQuestion(newMessage);
   };
 
   const alignChatView = () => {
@@ -116,7 +116,7 @@ const SynastryChat = () => {
 
   useEffect(() => {
     if (promptedMessage.value) {
-      sendQuestion(promptedMessage.value, 1);
+      sendQuestion(promptedMessage.value);
     }
     return () => {
       dispatch(clearSynastryPromptedMessage());
@@ -138,62 +138,70 @@ const SynastryChat = () => {
 
   // Fetch user data from DB
   useEffect(() => {
-    // After a 20-second delay, we begin retrieving the getUserData EP in both, public and private cases,
-    // on every 1s until we get proper data for the user. We have some edge cases that indicate if
+    // After a 20-second delay, we begin retrieving the getUserData EP on every 1s
+    // until we get proper data for the user. We have some edge cases that indicate if
     // fetching needs to continue, as you can see IF blocks.
-    if (!chatData.initialSynastryChatFetch) {
-      if (
-        isObjEmpty(chatData.value?.thread) ||
-        chatData.value?.thread?.processing ||
-        !chatData.value?.thread?.messages?.length
-      ) {
-        dispatch(setSynastryCentralizedLoading(true));
-        setTimeout(() => {
-          dispatch(
-            getSynastryData({
-              threadId: `${chatData.value?.thread?.thread_info?.thread_id}`,
-              userId: `${authData?.uid}`,
-            }),
-          );
-        }, 1000);
-      }
-    }
-  }, [chatData.value]);
-
-  useLayoutEffect(() => {
     if (
-      synastryList?.threads?.length &&
-      key?.chatIndex &&
-      chatData.initialSynastryChatFetch
+      (isObjEmpty(chatData.value?.thread) ||
+        chatData.value?.thread?.processing ||
+        !chatData.value?.thread?.messages?.length) &&
+      chatData.value?.thread?.thread_info?.thread_id &&
+      !chatData.initialSynastryChatFetch
     ) {
-      if (synastryList.threads.length === Number(key?.chatIndex)) {
-        dispatch(
-          getSynastryData({
-            threadId: `${
-              synastryList?.threads[Number(key.chatIndex) - 1]?.thread_info
-                ?.thread_id
-            }`,
-            userId: `${authData?.uid}`,
-          }),
-        );
-
-        dispatch(setSynastryChatInitialFetch(false));
-      }
-    }
-  }, [synastryList, chatData.initialSynastryChatFetch]);
-
-  useLayoutEffect(() => {
-    if (synastryList?.threads?.length < Number(key?.chatIndex)) {
       dispatch(setSynastryCentralizedLoading(true));
+      console.log("SynastryChat.tsx -> getSynastryData 2 CHAT");
       setTimeout(() => {
         dispatch(
           getSynastryData({
+            threadId: `${chatData.value?.thread?.thread_info?.thread_id}`,
             userId: `${authData?.uid}`,
           }),
         );
       }, 1000);
     }
-  }, [synastryList, synastryList?.adding_partner_processing_flag]);
+  }, [chatData.value]);
+
+  useEffect(() => {
+    if (
+      ((synastryList?.threads?.length
+        ? synastryList?.threads?.length < Number(key?.chatIndex) + 1
+        : true) ||
+        synastryList?.adding_partner_processing_flag) &&
+      isObjEmpty(chatData.value?.thread) &&
+      isFirstInitialFetchOver
+    ) {
+      console.log("SynastryChat.tsx -> getSynastryData LIST 1");
+      setTimeout(() => {
+        dispatch(
+          getSynastryData({
+            userId: `${authData?.uid}`,
+          }),
+        )
+          .unwrap()
+          .then((res) => {
+            if (
+              key?.chatIndex &&
+              res.data?.threads?.length === Number(key?.chatIndex) + 1
+            ) {
+              dispatch(setSynastryChatData(res.data?.threads[key.chatIndex]));
+              dispatch(setSynastryChatInitialFetch(false));
+            }
+          })
+          .catch((error) => console.log(error));
+      }, 1000);
+    }
+  }, [synastryList]);
+
+  useLayoutEffect(() => {
+    if (chatData.initialSynastryChatFetch && authData?.uid) {
+      console.log("SynastryChat.tsx -> getSynastryData LIST 2");
+      dispatch(setSynastryCentralizedLoading(true));
+      setTimeout(() => {
+        dispatch(getSynastryData({ userId: `${authData?.uid}` }));
+        setIsFirstInitialFetchOver(true);
+      }, 20000);
+    }
+  }, [chatData.initialSynastryChatFetch]);
 
   useLayoutEffect(() => {
     const indexOfPromptedMessage = messages.findIndex(
@@ -211,11 +219,38 @@ const SynastryChat = () => {
     );
   }, [messages]);
 
+  useLayoutEffect(() => {
+    if (
+      isObjEmpty(chatData.value) &&
+      authData?.uid &&
+      key?.chatIndex &&
+      !chatData.initialSynastryChatFetch
+    ) {
+      console.log("SynastryChat.tsx -> getSynastryData LIST 3");
+      dispatch(
+        getSynastryData({
+          userId: `${authData?.uid}`,
+        }),
+      )
+        .unwrap()
+        .then((res) => {
+          key?.chatIndex &&
+            res.data?.threads?.length &&
+            dispatch(setSynastryChatData(res.data?.threads[key.chatIndex]));
+        })
+        .catch((error) => console.log(error));
+    }
+
+    return () => {
+      dispatch(clearSynastryChatData());
+    };
+  }, [authData?.uid]);
+
   const chatContent = useMemo(() => {
     return (
       <ScrollWrapper
         id="scrollSynastry"
-        className="bg-dark-blue w888:mt-0 w888:px-2 w888:pb-2 mt-3 flex w-full flex-col gap-2 rounded-xl px-5 pb-5"
+        className="mt-3 flex w-full flex-col gap-2 rounded-xl bg-dark-blue px-5 pb-5 w888:mt-0 w888:px-2 w888:pb-2"
       >
         <SynastryChatNavbar />
         {messages.map((message, i) => {
@@ -224,14 +259,8 @@ const SynastryChat = () => {
               key={`${message.message}${i}`}
               className={`${i === 0 ? "-mt-1.5" : ""} ${
                 message.from === "bot" ? "mr-auto" : "ml-auto"
-              } fade-in-message-animation w888:text-sm w480:max-w-[96%] max-w-[90%] rounded-xl bg-[#e0efff11] px-4 py-3.5 text-base font-light break-words text-[#d5d5d5]`}
+              } fade-in-message-animation max-w-[90%] break-words rounded-xl bg-[#e0efff11] px-4 py-3.5 text-base font-light text-[#d5d5d5] w888:text-sm w480:max-w-[96%]`}
             >
-              {/* <span
-                className="break-words mx-auto flex flex-col gap-[4px] w-fit"
-                dangerouslySetInnerHTML={{
-                  __html: formatText(message.message),
-                }}
-              ></span> */}
               <MarkdownPreview
                 source={message.message}
                 style={{
@@ -251,19 +280,13 @@ const SynastryChat = () => {
           />
         ) : null}
         {loading && (
-          <p
-            className={`fade-in-message-animation w888:text-sm w888:max-w-[320px] mr-auto flex max-w-[950px] animate-pulse items-center gap-3 rounded-xl bg-[#e0efff11] px-4 py-3.5 text-sm font-light break-words text-[#d5d5d5]`}
-          >
-            <img
-              src={delphiLogo}
-              className="w888:w-[22px] h-auto w-[30px]"
-              alt="delphi-logo"
-            />
-            <span className="mx-auto flex w-fit flex-col gap-[4px] break-words">
-              ...{coolPunchLines[getRandomInt(0, coolPunchLines.length - 1)]}
-              ...
-            </span>
-          </p>
+          <div className="fade-in-message-animation flex flex-col gap-2">
+            <div className="bouncing-loader mr-auto flex animate-pulse items-center rounded-xl bg-[#e0efff17] px-2.5 pb-2 pt-3 text-sm ">
+              <div className="m-[2.5px] h-[4px] w-[4px] rounded-full bg-[#a1aac5e7] opacity-100"></div>
+              <div className="m-[2.5px] h-[4px] w-[4px] rounded-full bg-[#a1aac5e7] opacity-100"></div>
+              <div className="m-[2.5px] h-[4px] w-[4px] rounded-full bg-[#a1aac5e7] opacity-100"></div>
+            </div>
+          </div>
         )}
         <span ref={scrollRef} />
       </ScrollWrapper>
@@ -275,7 +298,7 @@ const SynastryChat = () => {
       {chatContent}
       <form
         onSubmit={submitHandler}
-        className="bg-dark-blue w888:gap-1.5 mt-2 flex w-full items-center gap-2 rounded-xl py-[5px] pr-2.5"
+        className="mt-2 flex w-full items-center gap-2 rounded-xl bg-dark-blue py-[5px] pr-2.5 w888:gap-1.5"
       >
         <TextInput
           label=""
@@ -291,25 +314,25 @@ const SynastryChat = () => {
           className="!py-2.5"
         />
         <button
-          className="just bg-transparent-gray w888:px-2 w888:py-[7.5px] w888:gap-1.5 flex items-center justify-center gap-2 rounded-full px-5 py-[7px] font-light"
+          className="just flex items-center justify-center gap-2 rounded-full bg-transparent-gray px-5 py-[7px] font-light w888:gap-1.5 w888:px-2 w888:py-[7.5px]"
           type="submit"
-          disabled={loading}
+          disabled={
+            loading ||
+            (internalAuthData?.credits ? internalAuthData?.credits < 5 : true)
+          }
         >
-          <span className="text-gold w888:text-sm text-[17px]">Ask</span>
-          <span className="bg-dark-dimmed-blue flex items-center gap-1 rounded-full pr-2 pl-1.5">
-            <CreditsIco className="w888:w-[10px] w888:[&_path]:fill-gold h-auto w-[12px]" />
-            <span className="text-gold w888:text-[10px] text-sm">5</span>
+          <span className="text-[17px] text-gold w888:text-sm">Ask</span>
+          <span className="flex items-center gap-1 rounded-full bg-dark-dimmed-blue pl-1.5 pr-2">
+            <CreditsIco className="h-auto w-[12px] w888:w-[10px] w888:[&_path]:fill-gold" />
+            <span className="text-sm text-gold w888:text-[10px]">5</span>
           </span>
-          <SlArrowRight className="w888:w-[12px] w888:h-auto text-gold -ml-[2px]" />
+          <SlArrowRight className="-ml-[2px] text-gold w888:h-auto w888:w-[12px]" />
         </button>
-        <div
-          className=""
-          onClick={() => {
-            dispatch(updateCredits({ userId: `${authData?.uid}` }));
-            dispatch(decrementCredits(1));
-          }}
-        >
-          <PDFButton synastry />
+        <div className="">
+          <PDFButton
+            disabled={!chatData?.value?.thread?.messages?.length ? true : false}
+            synastry
+          />
         </div>
       </form>
       {questionsModal.isOpen && (

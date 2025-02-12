@@ -42,7 +42,7 @@ const ModalWrapper = (props: {
 
   return (
     <div
-      className={`bg-glass show-animation fixed top-0 left-0 z-50 h-screen w-full overflow-hidden ${
+      className={`bg-glass show-animation fixed left-0 top-0 z-50 h-svh w-full overflow-hidden ${
         props.containerClassName ? props.containerClassName : ""
       }`}
       onMouseEnter={() => {
@@ -51,19 +51,19 @@ const ModalWrapper = (props: {
     >
       <div
         ref={props?.customRef ? props.customRef : null}
-        className="h-screen w-full"
+        className="h-svh w-full"
         onClick={() => props.close()}
       ></div>
       <div
         id="modalScrollbarContainerBox"
         className={`
-           bg-dark-blue fixed top-[50%] left-[50%] z-10 h-auto max-h-[80vh] w-fit max-w-[80%] translate-x-[-50%] translate-y-[-50%] shadow-lg ${
+           fixed left-[50%] top-[50%] z-10 h-auto max-h-[80vh] w-fit max-w-[80%] translate-x-[-50%] translate-y-[-50%] bg-dark-blue shadow-lg ${
              props.childrenClassName ? props.childrenClassName : ""
-           } modal-custom-animation w888:max-w-[95%] w888:max-h-[95%] !rounded-xl`}
+           } modal-custom-animation !rounded-xl w888:max-h-[95%] w888:max-w-[95%]`}
       >
         {props.enableCloseIco ? (
           <div
-            className={`hover:bg-z-grey-100 group absolute top-[5px] right-[10px] mt-[4px] flex h-[32px] w-[32px] cursor-pointer items-center justify-center rounded-lg`}
+            className={`hover:bg-z-grey-100 group absolute right-[10px] top-[5px] mt-[4px] flex h-[32px] w-[32px] cursor-pointer items-center justify-center rounded-lg`}
           >
             <CloseIco
               className={

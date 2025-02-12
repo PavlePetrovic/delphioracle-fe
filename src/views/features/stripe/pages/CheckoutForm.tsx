@@ -42,8 +42,8 @@ const CheckoutForm = () => {
   return !params?.priceId || !params?.userId ? (
     <LoadingPage />
   ) : (
-    <ScrollWrapper id="stripeScrollWrapper" className="bg-dark-blue h-screen">
-      <div className="bg-dark-blue z-[999] flex items-center justify-center py-8">
+    <ScrollWrapper id="stripeScrollWrapper" className="h-svh bg-dark-blue">
+      <div className="z-[999] flex items-center justify-center bg-dark-blue py-8">
         <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
           <EmbeddedCheckout className="w-full" />
         </EmbeddedCheckoutProvider>
