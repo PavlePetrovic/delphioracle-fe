@@ -1,7 +1,6 @@
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useAppSelector } from "@redux/reduxTypes";
 import PDFChatHistory from "../PDF/PDFChatHistory";
-// import { PiFilePdf } from "react-icons/pi";
 import PDFIco from "@assets/icons/pdf-ico.svg";
 
 const PDFButton = ({
@@ -13,13 +12,12 @@ const PDFButton = ({
   synastry?: boolean;
   disabled?: boolean;
 }) => {
-  const internalAuthData = useAppSelector(
-    (state) => state.authentication.internalAuthData.value,
-  );
   const chatData = useAppSelector((state) => state.chat.chatData);
   let messages = chatData.value?.main_thread?.messages;
   const chatSynastryData = useAppSelector((state) => state.synastry.chat);
   let synastryMessages = chatSynastryData?.value?.thread?.messages;
+
+  const formatedMessages = synastry ? synastryMessages : messages;
 
   return disabled ? (
     <div
@@ -28,12 +26,10 @@ const PDFButton = ({
     >
       <PDFIco className="text-base" />
     </div>
-  ) : messages?.length ? (
+  ) : formatedMessages?.length ? (
     <PDFDownloadLink
-      document={
-        <PDFChatHistory messages={synastry ? synastryMessages : messages} />
-      }
-      fileName={`${internalAuthData?.user_info?.name?.toLocaleLowerCase()}-${internalAuthData?.user_info?.surname?.toLocaleLowerCase()}-delphi-oracle.pdf`}
+      document={<PDFChatHistory messages={formatedMessages} />}
+      fileName="delphi-oracle.pdf"
     >
       {/* @ts-ignore */}
       {({ url, loading }) =>
