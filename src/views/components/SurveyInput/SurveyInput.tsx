@@ -62,7 +62,7 @@ const SurveyInput = ({ valueExist, onChange }: propsTypes) => {
       <Button
         type="main"
         className="!text-gold w888:text-sm"
-        text="Detailed Explanation"
+        text="What do these mean?"
         CustomIco={
           <MdInfoOutline className="h-auto w-[19px] text-gold w888:w-[17px]" />
         }
