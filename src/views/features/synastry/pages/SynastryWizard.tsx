@@ -1,17 +1,21 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../../../redux/reduxTypes";
 import { userInfoType } from "@appTypes/universal";
 import TextInput from "@components/TextInput/TextInput";
-import City from "@features/getUserInfo/components/wizardSteps/City";
+import City from "@features/infoWizard/components/wizardSteps/City";
 import SingleSelect from "@components/SingleSelect/SingleSelect";
 import { initiateSynastryConversation } from "../reducer/synastry.actions";
-import { setSynastryChatInitialFetch } from "../reducer/synastry.reducer";
-import { clearLocValues } from "@features/getUserInfo/reducer/userData.reducer";
+import {
+  clearSynastryChatData,
+  setSynastryChatInitialFetch,
+} from "../reducer/synastry.reducer";
+import { clearLocValues } from "@features/infoWizard/reducer/userData.reducer";
 import ScrollWrapper from "@components/ScrollWrapper/ScrollWrapper";
 import CreditsIco from "../../../../assets/icons/credits-ico.svg";
 import Button from "@components/Button/Button";
-import DateTime from "@features/getUserInfo/components/wizardSteps/DateTime";
+import DateTime from "@features/infoWizard/components/wizardSteps/DateTime";
+import { decrementCredits } from "../../auth/reducer/authentication.reducer";
 
 const initialUserInfo: userInfoType = {
   name: "",
@@ -46,40 +50,38 @@ const SynastryWizard = () => {
   const navigate = useNavigate();
 
   const userId = useAppSelector((state) => state.authentication.authData?.uid);
+  const internalAuthData = useAppSelector(
+    (state) => state.authentication.internalAuthData.value,
+  );
   const synastryList = useAppSelector((state) => state.synastry.list);
 
   const [userInfo, setUserInfo] = useState<userInfoType>(initialUserInfo);
-  const [addPartner, setAddPartner] = useState(false);
 
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setAddPartner(true);
-  };
+  const submitHandler = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
 
-  useEffect(() => {
-    if (addPartner) {
       dispatch(
         initiateSynastryConversation({
           other_person_info: userInfo,
           userId: `${userId}`,
         }),
       );
-
+      dispatch(decrementCredits(5));
       dispatch(setSynastryChatInitialFetch(true));
 
       if (synastryList?.threads?.length) {
-        navigate(`/synastry/chat/${synastryList.threads.length + 1}`);
+        navigate(`/synastry/chat/${synastryList.threads.length}`);
       } else {
-        navigate(`/synastry/chat/1`);
+        navigate(`/synastry/chat/0`);
       }
-    }
-
-    return () => {
-      setAddPartner(false);
-    };
-  }, [addPartner]);
+    },
+    [userInfo, userId, synastryList],
+  );
 
   useEffect(() => {
+    dispatch(clearSynastryChatData());
+
     return () => {
       dispatch(clearLocValues());
     };
@@ -89,7 +91,7 @@ const SynastryWizard = () => {
     <ScrollWrapper id="scrollSynastryWizard" className="mt-2.5 h-full w-full">
       <div className="flex h-full min-h-full w-full flex-col items-center justify-between gap-4">
         <h1 className="mt-2 text-center font-philosopher text-[34px] text-white w888:mb-4 w888:mt-0 w888:text-2xl">
-          Synastry - Add Partner
+          Synastry - Add your Connection
         </h1>
         <form
           onSubmit={submitHandler}
@@ -98,7 +100,7 @@ const SynastryWizard = () => {
           <div className="flex w-full items-center gap-5 w888:flex-col">
             <div className="flex w-1/2 flex-col items-center gap-2.5 pb-[1px] w888:w-full">
               <p className="text-center text-base font-light text-white w888:text-sm">
-                Partner Name
+                Connection Name
               </p>
               <TextInput
                 label=""
@@ -112,14 +114,14 @@ const SynastryWizard = () => {
                   });
                 }}
                 value={userInfo.name}
-                placeholder={"Type name"}
+                placeholder={"Type your connection's name…"}
                 className="!bg-[#0D101AB8] !py-2"
                 disabled={false}
               />
             </div>
             <div className="flex w-1/2 flex-col items-center gap-[11px] w888:w-full">
               <p className="text-center text-base font-light text-white w888:text-sm">
-                Partner gender
+                Connection Gender
               </p>
               <SingleSelect
                 selectedValue={{
@@ -143,9 +145,10 @@ const SynastryWizard = () => {
           </div>
           <div className="flex flex-col items-center">
             <p className="mb-0.5 text-center text-base font-light text-white w888:text-sm">
-              City where your partner were born?
+              Where were they born?
             </p>
             <City
+              placeholder="Type their birthplace…"
               onChange={(value) =>
                 value.city &&
                 setUserInfo((prevUserInfo) => {
@@ -162,10 +165,11 @@ const SynastryWizard = () => {
             />
           </div>
           <p className="-mb-3 mt-2 text-center text-[17px] font-light text-white w888:text-sm">
-            Partner birthday and time
+            Birthday and Time
           </p>
           <div className="mx-auto">
             <DateTime
+              placeholder="Pick their birthdate and time"
               valueExist={{
                 year: "",
                 month: "",
@@ -191,18 +195,19 @@ const SynastryWizard = () => {
           <div className="mt-10 w888:mb-4">
             <Button
               type="goldMain"
-              text="Add New One"
+              text="Add New Connection"
+              disable={
+                internalAuthData?.credits ? internalAuthData?.credits < 5 : true
+              }
               CustomIco={
-                <button
+                <div
                   className={`flex items-center justify-center gap-1 rounded-full bg-[#E0EFFF1F] px-3 py-[1px] font-light text-gold`}
-                  onClick={() => null}
                 >
                   <CreditsIco className="h-auto w-[13px] [&_path]:fill-gold" />
                   <span className="text-gold">5</span>
-                </button>
+                </div>
               }
               className="mx-auto w-fit !pl-3 !pr-2.5 !font-extralight"
-              onClick={() => navigate("/synastry/wizard")}
             />
           </div>
         </form>
