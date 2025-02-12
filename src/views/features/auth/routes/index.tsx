@@ -46,8 +46,8 @@ const authRouter: routeType[] = [
       layout: "app_framed",
       title: "Verify",
       type: "page",
-      private: true,
-      // restricted: true,
+      public: true,
+      restricted: true,
     },
   },
   {

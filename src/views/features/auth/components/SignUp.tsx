@@ -8,6 +8,7 @@ import {
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  signOut,
 } from "firebase/auth";
 import { auth } from "../../../../firebaseConfig/firebaseConfig";
 import GoogleAuth from "./GoogleAuth";
@@ -102,10 +103,16 @@ const SignUp = () => {
                 sessionStorage.removeItem("userId");
                 sessionStorage.removeItem("wizardPassed");
                 localStorage.setItem("delphiOracleUser", "true");
-                dispatch(setAuth(auth.currentUser));
+                sessionStorage.setItem(
+                  "verificationEmail",
+                  `${auth.currentUser?.email}`,
+                );
+                // dispatch(setAuth(auth.currentUser));
                 dispatch(clearAuthError());
                 auth?.currentUser && sendEmailVerification(auth.currentUser);
-                // navigate("/verification");
+                signOut(auth)
+                  .then(() => navigate("/verification"))
+                  .catch((error) => console.log(error));
               })
               .catch((error) => {
                 navigate("/auth/signup");
@@ -208,7 +215,7 @@ const SignUp = () => {
       <button
         type="submit"
         disabled={isStringEmpty(input.email) || isStringEmpty(input.password)}
-        className={`bg-main-grey mt-2 flex w-4/6 cursor-pointer items-center justify-center gap-2.5 rounded-full border border-[#ffffff1d] bg-transparent-gray py-[7px] text-sm font-normal text-gold w888:w-full ${
+        className={`mt-2 flex w-4/6 cursor-pointer items-center justify-center gap-2.5 rounded-full border border-[#ffffff1d] bg-main-grey bg-transparent-gray py-[7px] text-sm font-normal text-gold w888:w-full ${
           isStringEmpty(input.email) || isStringEmpty(input.password)
             ? ""
             : "hover:opacity-90"

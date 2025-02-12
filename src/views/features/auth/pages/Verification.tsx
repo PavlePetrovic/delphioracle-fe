@@ -2,16 +2,19 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { getAuth, applyActionCode } from "firebase/auth";
 import Spinner from "@components/Spinner/Spinner";
-import { useAppSelector } from "@redux/reduxTypes";
+import Button from "@components/Button/Button";
 
 const Verification = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const authData = useAppSelector((state) => state.authentication.authData);
 
   const [isVerified, setIsVerified] = useState(false);
 
   const auth = getAuth();
+
+  useEffect(() => {
+    auth?.currentUser?.emailVerified && setIsVerified(true);
+  }, [auth?.currentUser]);
 
   useEffect(() => {
     const oobCode = searchParams.get("oobCode"); // Extract code from URL
@@ -19,7 +22,6 @@ const Verification = () => {
       applyActionCode(auth, oobCode)
         .then(() => {
           setIsVerified(true);
-          navigate("/chat-box");
           // Redirect to app
         })
         .catch((error) => {
@@ -34,19 +36,42 @@ const Verification = () => {
         Email Verification
       </h1>
 
-      <div className="flex flex-col items-center gap-3">
-        <p className="text-center text-lg font-light text-white">
-          {!isVerified ? `Please, check your inbox: ${authData?.email}` : ""}
-        </p>
-        <div className="flex items-center gap-3 text-center">
-          <p className="text-base font-light text-white">
-            {!isVerified
-              ? "Email verification in progress..."
-              : "Verification Completed"}
+      {!isVerified ? (
+        <div className="flex flex-col items-center gap-5">
+          <p className="text-center text-lg font-light text-white">
+            Please, check your inbox:{" "}
+            {sessionStorage.getItem("verificationEmail") && (
+              <span className="ml-1 rounded-full bg-main-grey px-3.5 py-1.5 font-medium text-gold">
+                {sessionStorage.getItem("verificationEmail")}
+              </span>
+            )}
           </p>
-          {!isVerified ? <Spinner classList="w-[20px] h-auto" /> : ""}
+          <p className="max-w-[500px] text-center text-lg font-light text-white">
+            Verification emails can sometimes hide - don't forget to check your
+            junk or spam folder just in case.
+          </p>
+          <div className="flex animate-pulse items-center gap-3 text-center">
+            <p className={`text-base font-light text-gold`}>
+              Email verification in progress...
+            </p>
+            <Spinner classList="w-[20px] h-auto" />
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex flex-col items-center gap-5">
+          <p className="text-center text-2xl font-light text-white w888:text-lg">
+            Verification successfully completed!
+          </p>
+
+          <Button
+            type="goldMain"
+            text="Go to Login"
+            actionIco
+            onClick={() => navigate("/auth/login")}
+            className="mt-5"
+          />
+        </div>
+      )}
 
       <p className="h-[50px] w-[1px]"></p>
     </div>

@@ -80,11 +80,13 @@ const Auth = () => {
                       <BigStar className="h-auto w-[60px]" />
                       <h2 className="w-fit text-center text-lg font-light text-[#f5f5f5] drop-shadow-lg w888:text-base">
                         Hold on! Our Oracle needs a few details from you before
-                        you can sign up. It's a short magical journey!
+                        you can sign up and ask away. It's a short magical
+                        journey.
                       </h2>
                       <Button
                         type="goldMain"
-                        text="Let's start"
+                        text="Let's Begin"
+                        actionIco
                         onClick={() => navigate("/user-info-public/wizard")}
                         className="mt-1"
                       />
