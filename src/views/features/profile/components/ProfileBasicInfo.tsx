@@ -47,12 +47,12 @@ const ProfileBasicInfo = () => {
     : "Not Provided";
 
   return internalAuthDataLoading ? (
-    <div className="bg-main-grey flex h-[353px] animate-pulse flex-col gap-1.5 rounded-xl px-3.5 py-3.5 w888:h-[332px]">
+    <div className="flex h-[353px] animate-pulse flex-col gap-1.5 rounded-xl bg-main-grey px-3.5 py-3.5 w888:h-[332px]">
       <LoadingPage />
     </div>
   ) : (
     // <Spinner classList="w-[30px] h-[30px]" />
-    <div className="bg-main-grey flex flex-col gap-1.5 rounded-xl px-3.5 py-3.5">
+    <div className="flex flex-col gap-1.5 rounded-xl bg-main-grey px-3.5 py-3.5">
       <div className="mb-2 flex flex-col items-start gap-0.5">
         <h2 className="font-prata text-[25px] tracking-wide text-white w888:text-[23px]">
           {userInfo?.name}
@@ -85,7 +85,7 @@ const ProfileBasicInfo = () => {
       </div>
       <div className="flex flex-col">
         <p className="text-[13px] font-extralight text-dimmed-text-gray w888:text-sm">
-          Date of birth
+          Date of Birth
         </p>
         <p className="-mt-0.5 text-lg font-light text-white w888:text-base">
           {formatDate(
@@ -95,7 +95,7 @@ const ProfileBasicInfo = () => {
       </div>
       <div className="flex flex-col">
         <p className="text-[13px] font-extralight text-dimmed-text-gray w888:text-sm">
-          Time of birth
+          Time of Birth
         </p>
         <p className="-mt-0.5 text-lg font-light text-white w888:text-base">
           {formatTime(
@@ -111,7 +111,7 @@ const ProfileBasicInfo = () => {
       </div>
       <div className="flex flex-col">
         <p className="text-[13px] font-extralight text-dimmed-text-gray w888:text-sm">
-          Birth location
+          Place of Birth
         </p>
         <p className="-mt-0.5 text-lg font-light text-white w888:text-base">{`${userInfo?.city}`}</p>
       </div>
@@ -123,7 +123,7 @@ const ProfileBasicInfo = () => {
       </div>
       <div className="flex flex-col">
         <p className="text-[13px] font-extralight text-dimmed-text-gray w888:text-sm">
-          Knowledge Level
+          Your Oracle Style
         </p>
         <p className="-mt-0.5 text-lg font-light text-white w888:text-base">
           {knowledgeLevel}

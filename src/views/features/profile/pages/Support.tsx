@@ -8,24 +8,28 @@ const Support = () => {
       </div>
       <div className="h-full w-full">
         <p className="flex flex-col justify-start gap-3 font-light">
-          <span>We're here to help!</span>
+          <span>Hey there! We're here to help. 💫</span>
           <span>
-            If you encounter any issues while using our website or have
-            questions, please don't hesitate to reach out to our support team.
+            Stuck? Got feedback or questions? Hit us up - we've got your back!
           </span>
           <span>
-            Contact Email:{" "}
-            <span className="bg-main-grey rounded-full px-3 py-1 text-gold">
+            Email us at:{" "}
+            <span className="rounded-full bg-main-grey px-3 py-1 text-gold">
               support@thedelphioracle.com
             </span>
           </span>
           <span>
-            Our team strives to respond to all inquiries as quickly as possible.
-            Most responses are provided within 24-48 hours.
+            We usually reply within 24 - 48 hours, so hang tight while we get
+            back to you.
           </span>
           <span>
-            We're glad to have you here at The Delphi Oracle - don't hesitate to
-            reach out!
+            We're thrilled to have you here at The Delphi Oracle - thanks for
+            being part of the magic! ✨
+          </span>
+          <span>
+            Mystically yours,
+            <br />
+            The Delphi Oracle Team
           </span>
         </p>
       </div>

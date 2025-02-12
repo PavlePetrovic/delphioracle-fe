@@ -8,7 +8,7 @@ const ProfileNavigation = () => {
     hide?: boolean;
   }> = [
     {
-      text: "Report",
+      text: "About You",
       route: "/profile",
       end: true,
     },
@@ -33,7 +33,7 @@ const ProfileNavigation = () => {
           >
             {({ isActive }) => (
               <div
-                className={`bg-main-grey flex items-start justify-start gap-2 rounded-full px-5 py-1.5 font-light transition-all hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-65 w888:px-4 w888:py-[5px] w888:text-sm ${
+                className={`flex items-start justify-start gap-2 rounded-full bg-main-grey px-5 py-1.5 font-light transition-all hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-65 w888:px-4 w888:py-[5px] w888:text-sm ${
                   isActive ? "border border-gold text-gold" : "text-white"
                 }`}
               >

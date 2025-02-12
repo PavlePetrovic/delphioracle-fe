@@ -31,7 +31,7 @@ const Profile = () => {
             {/* <ProfileDetailedInfo /> */}
           </div>
         </div>
-        <div className="flex h-full w-[69%] flex-col items-center justify-center text-white w888:hidden">
+        <div className="h710:h-auto flex h-full w-[69%] flex-col items-center justify-center text-white w888:hidden">
           {/* <ProfileDetailedInfo /> */}
           <Outlet />
         </div>
