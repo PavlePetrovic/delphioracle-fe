@@ -19,10 +19,10 @@ const SliderBar: React.FC<SliderBarProps> = ({ items }) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
   const settings = {
-    dots: true,
+    dots: false,
     arrows: true,
     infinite: true,
-    speed: 500,
+    speed: 300,
     slidesToShow: 3,
     slidesToScroll: 1,
     afterChange: (index: number) => {
@@ -32,6 +32,12 @@ const SliderBar: React.FC<SliderBarProps> = ({ items }) => {
       {
         breakpoint: 768,
         settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 612,
+        settings: {
           slidesToShow: 1,
         },
       },
@@ -39,16 +45,22 @@ const SliderBar: React.FC<SliderBarProps> = ({ items }) => {
   };
 
   return (
-    <div className="slider-container relative mx-auto mt-6 w-full max-w-3xl">
+    <div className="slider-container relative mx-auto mt-6 w-[95%] w1200:w-[92%] w888:w-[85%]">
       <Slider {...settings} className="w-full">
         {items.map((item, index) => (
           <div key={index} className="px-2">
             <div
-              className={`w-full rounded-lg border p-4 text-white shadow-lg transition-colors duration-300 
-                ${activeIndex === index ? "border-gold" : "border-gray-500"}`}
+              className={`flex h-[180px] flex-col justify-between rounded-lg border bg-[#3d46536a] p-4 transition-colors duration-300 w1200:h-[215px] w888:h-[200px] w480:h-[220px]
+                ${activeIndex + 1 === index ? "border-gold" : "border-main-grey"}`}
             >
-              <p className="mt-2 font-philosopher text-gold">{item.message}</p>
-              <p className="text-right text-sm font-light">- {item.author}</p>
+              <p className="self-start text-left text-base font-light italic text-white">
+                <span className="text-gold">"</span>
+                {item.message}
+                <span className="text-gold">"</span>
+              </p>
+              <p className="self-end text-right font-philosopher text-sm italic text-gold">
+                {item.author}
+              </p>
             </div>
           </div>
         ))}
