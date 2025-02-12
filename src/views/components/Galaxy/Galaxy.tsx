@@ -1,6 +1,9 @@
+import { useAppSelector } from "@/redux/reduxTypes";
 import { ReactNode } from "react";
 
 const Galaxy = ({ children }: { children: ReactNode | JSX.Element }) => {
+  const isMobile = useAppSelector((state) => state.global.isMobile);
+
   const generateStars = (count: number) => {
     const stars = [];
     for (let i = 0; i < count; i++) {
@@ -28,7 +31,7 @@ const Galaxy = ({ children }: { children: ReactNode | JSX.Element }) => {
 
   return (
     <div className="fade-in-animation starry-background">
-      {generateStars(200)}
+      {generateStars(isMobile ? 80 : 200)}
       {children}
     </div>
   );
