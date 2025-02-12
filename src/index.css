@@ -21,6 +21,11 @@
   clip-path: xywh(0 0px 100% 100% round 0% 12px 12px 0%);
 } */
 
+/* Videos slider dots color */
+.slick-dots li button:before {
+  color: #ebd9ad !important;
+}
+
 /* Accordion animations */
 .expand-list {
   max-height: 1000px;
