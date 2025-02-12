@@ -14,7 +14,6 @@ import {
   GiPisces,
 } from "react-icons/gi";
 import { FaUserAlt } from "react-icons/fa";
-import { useAppSelector } from "../../../redux/reduxTypes";
 
 const astroSigns = [
   "Aries: The Ram",
@@ -38,9 +37,7 @@ const AstroSignSelector = ({
   type: "text" | "icon";
   className?: string;
 }) => {
-  const userData = useAppSelector(
-    (state) => state.chat.chatData.value?.account_info?.user_info,
-  );
+  const userData = { year: "2018", month: "5", day: "2" };
 
   const sign: number | null = userData
     ? Number(
